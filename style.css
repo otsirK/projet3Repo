@@ -1,0 +1,94 @@
+/*body {
+    background-image: url("images/alaska.jpg");
+    background-attachment:fixed;
+}*/
+
+
+.admin-top {
+    background-color: #d9534f;
+    text-align: center;
+    padding: 10px;
+}
+
+.admin-title {
+    font-weight: bold;
+}
+
+.alert-danger {
+    margin-bottom: 10px;
+    padding: 4px;
+    text-align: center;
+}
+
+.lienCommentaire {
+    text-align: left;
+}
+
+.formadminbillet input{
+    width: auto;
+
+}
+label{
+color: #0A246A;
+}
+
+/*.champsTitre{
+    color: red;
+    height: 60px;
+    max-width: 1600px;
+    padding: 150px;
+    font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+
+
+/*
+.formulaire  input{
+    border:1px solid #ccc;
+    font-size:20px;
+    width:300px;
+    min-height:30px;
+    display:block;
+    margin-bottom:15px;
+    margin-top:5px;
+    outline: none;
+
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    -o-border-radius:5px;
+    -ms-border-radius:5px;
+    border-radius:5px;
+}
+
+input[type=submit] {
+    background:none;
+    width:auto;
+    padding:10px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+/*table, td {
+    border: 1px solid black;
+
+
+
+}
+
+table {
+    margin:auto;
+    margin-bottom: 20px;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr, th {
+    text-align: center;
+
+}
+
+td {
+    padding: 3px;
+    height: 25px;
+}

@@ -1,0 +1,10 @@
+AuthName "Page d'administration protégée"
+AuthType Basic
+AuthUserFile "C:\wamp\www\Projet 3\admin\.htpasswd"
+Require valid-user
+
+<Files "index.php">
+    Allow From All
+    Satisfy Any
+</Files>
+
