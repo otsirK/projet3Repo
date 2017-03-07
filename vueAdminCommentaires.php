@@ -49,7 +49,7 @@ class ViewAdminCommentaires
             }
             ?>
 
-            <h2>Commentaires signalés</h2>
+            <span class="titreAdmin"><h2>Commentaires signalés</h2></span>
 
             <table class="table table-striped">
                 <tr><th>Auteur</th><th>Commentaire</th><th>Date d'ajout</th><th>Action</th></tr>
@@ -62,7 +62,7 @@ class ViewAdminCommentaires
                 }
                 ?></table>
 
-            <h2>Les 10 derniers commentaires</h2>
+            <span class="titreAdmin"><h2>Les 10 derniers commentaires</h2></span>
 
             <table class="table table-striped">
                 <tr><th>Auteur</th><th>Commentaires</th><th>Date d'ajout</th><th>Action</th></tr>

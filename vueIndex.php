@@ -53,8 +53,21 @@ class ViewAdmin
                     echo '<div class ="alert-danger">', $message, '</div>';
                 }
                 ?>
+        <span class="titreAdmin"><h2>Commentaires signalés</h2></span>
 
-            <h2>Ajouter un billet</h2>
+        <table class="table table-striped">
+            <tr><th>Auteur</th><th>Commentaire</th><th>Date d'ajout</th><th>Action</th></tr>
+
+            <?php
+            foreach($this->listeSignale as $commentaires)
+            {
+                echo '<tr ><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
+                $commentaires->getDateAjout(),'</td><td><a href="?modifier=', $commentaires->getId(), '" target="_blank">Modifier</a> | <a href="?supprimer=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
+            }
+            ?>
+        </table>
+
+        <span class="titreAdmin"><h2>Ajouter un billet</h2></span>
 
                 <form class="formulaire" action="admin.php" method="post">
             <p>
@@ -80,7 +93,7 @@ class ViewAdmin
                 ?>
             </p>
         </form>
-        <h2>Les 5 derniers billets publiés</h2>
+        <span class="titreAdmin"><h2>Les 8 derniers billets publiés</h2></span>
 
         <table class="table table-striped">
             <tr><th>Titre</th><th>Contenu</th><th>Date d'ajout</th><th>Dernière modification</th><th>Action</th></tr>

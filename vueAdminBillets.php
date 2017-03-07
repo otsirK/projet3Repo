@@ -57,10 +57,10 @@ class ViewAdminBillets
             }
             ?>
 
-            <h2>Ajouter un billet</h2>
+            <span class="titreAdmin"><h2>Ajouter un billet</h2></span>
             <div class="formAdminBillet">
             <form action="#" method="post">
-                <p>
+
 
                     <label>Titre :</label> <br/><input type="text" class="champsTitre" name="titre"
                                    value="<?php if (isset($billets)) echo $billets->getTitre(); ?>"/><br/>
@@ -75,13 +75,13 @@ class ViewAdminBillets
                         <?php
                     } else {
                         ?>
-                        <input type="submit" class="btn btn-default" value="Ajouter"/>
+                <p><input type="submit" class="btn btn-default" value="Ajouter"/></p>
                         <?php
                     }
                     ?>
-                </p>
+
             </form></div>
-            <h2>Tous les billets publiés</h2>
+            <span class="titreAdmin"><h2>Tous les billets publiés</h2></span>
 
             <table class="table table-striped">
                 <tr>

@@ -5,13 +5,24 @@
 
 
 .admin-top {
-    background-color: #d9534f;
+    background-color: #122b40;
+    color: white;
     text-align: center;
     padding: 10px;
 }
 
 .admin-title {
-    font-weight: bold;
+    font-weight: old;
+    font-variant: small-caps;
+}
+
+.titreAdmin h2{
+    color: #122b40;
+    background-color: ;
+    font-weight: old;
+    font-variant: small-caps;
+    padding-left: 5px;
+    border-bottom: 3px solid #122b40;
 }
 
 .alert-danger {
@@ -24,9 +35,20 @@
     text-align: left;
 }
 
-.formadminbillet input{
-    width: auto;
+.formAdminBillet input{
+    width: 100%;
 
+}
+
+.formAdminBillet p{
+    text-align: center;
+}
+
+.formAdminBillet .btn{
+    width: 10%;
+    margin: auto;
+    background-color: #122b40;
+    color: white;
 }
 label{
 color: #0A246A;

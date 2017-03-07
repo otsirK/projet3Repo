@@ -46,7 +46,7 @@ if (isset($_POST['auteur']))
     <div class="navbar navbar-default">
         <ul class="nav navbar-nav">
             <li class="active"> <a href="index.php">Accueil</a> </li>
-            <li> <a href="admin/admin.php">Accéder à l'espace d'administration</a> </li>
+            <li> <a href="admin.php">Accéder à l'espace d'administration</a> </li>
         </ul>
     </div>
 
