@@ -2,17 +2,18 @@
 
 class ViewAdminBillets
 {
-    private $listeBillets,
-            $listeSignale;
+    private $listeBillets;
+            //$billets; //billets
 
 
-    public function __construct($listeBillets, $listeSignale)
+    public function __construct($listeBillets) //($billets)
     {
         $this->listeBillets = $listeBillets;
-        $this->listeSignale = $listeSignale;
+
+
     }
 
-    public function display($message)
+    public function display($message,$billets)
     {
         ?>
         <!DOCTYPE html>
@@ -59,7 +60,7 @@ class ViewAdminBillets
 
             <span class="titreAdmin"><h2>Ajouter un billet</h2></span>
             <div class="formAdminBillet">
-            <form action="#" method="post">
+            <form action="http://127.0.0.1/projet%203/admin.php?num=2" method="post">
 
 
                     <label>Titre :</label> <br/><input type="text" class="champsTitre" name="titre"
@@ -70,7 +71,7 @@ class ViewAdminBillets
                     <?php
                     if (isset($billets) && !$billets->isNew()) {
                         ?>
-                        <input type="hidden" name="id" value="<?= $billets->getId() ?>"/>
+                        <input type="hidden" name="id" value="<?= $billets->getId() ?>"/> // $this->billet
                         <input type="submit" value="Modifier" name="modifier"/>
                         <?php
                     } else {
@@ -94,8 +95,8 @@ class ViewAdminBillets
                 <?php
                 foreach ($this->listeBillets as $billets) {
                     echo '<tr><td>', $billets->getTitre(), '</td><td>', substr($billets->getContenu(), 0, 250), ' ...', '</td><td>',
-                    $billets->getDateAjout()->format('d/m/Y à H\hi'), '</td><td>', ($billets->getDateAjout()->format('d/m/Y à H\hi')),
-                    '</td><td><a href="?modifier=', $billets->getId(), '" target="_blank">Modifier</a> | <a href="?supprimer=', $billets->getId(), '">Supprimer</a></td></tr>', "\n";
+                    $billets->getDateAjout()->format('d/m/Y à H\hi'), '</td><td>', ($billets->getDateModif()->format('d/m/Y à H\hi')),
+                    '</td><td><a href="?num=2&modifier=', $billets->getId(), '" >Modifier</a> | <a href="?supprimer=', $billets->getId(), '">Supprimer</a></td></tr>', "\n";
                 }
                 ?>
 

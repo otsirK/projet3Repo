@@ -8,6 +8,7 @@ class Commentaires
 			  $auteur,
 			  $contenu,
 			  $dateAjout,
+              $sousCommentaire,
               $erreurs = [];
 
 
@@ -93,6 +94,11 @@ public function setDateAjout(DateTime $dateAjout)
 	$this->dateAjout = $dateAjout;
 }
 
+public function setSousCommentaire($sousCommentaire)
+{
+    $this->sousCommentaire = $sousCommentaire;
+}
+
 // GETTERS //
 
   public function getErreurs()
@@ -130,4 +136,10 @@ public function setDateAjout(DateTime $dateAjout)
   {
     return $this->dateAjout;
   }
+
+    public function getSousCommentaire()
+    {
+        return $this->sousCommentaire;
+    }
+
 }

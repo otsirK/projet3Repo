@@ -9,7 +9,7 @@ $manager2 = new CommentairesManager($db);
 require 'Billets.php';
 //require 'BilletsManager.php';
 require 'controller.php';
-require 'vueIndex.php';
+require 'vueAdmin.php';
 require 'vueAdminBillets.php';
 require 'vueAdminCommentaires.php';
 

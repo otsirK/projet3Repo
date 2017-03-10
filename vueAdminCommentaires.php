@@ -12,7 +12,7 @@ class ViewAdminCommentaires
         $this->listeSignale = $listeSignale;
     }
 
-    public function display($message)
+    public function display($message, $commentaires)
     {
         ?>
         <!DOCTYPE html>
@@ -62,14 +62,14 @@ class ViewAdminCommentaires
                 }
                 ?></table>
 
-            <span class="titreAdmin"><h2>Les 10 derniers commentaires</h2></span>
+            <span class="titreAdmin"><h2>Tous les commentaires</h2></span>
 
             <table class="table table-striped">
                 <tr><th>Auteur</th><th>Commentaires</th><th>Date d'ajout</th><th>Action</th></tr>
                 <?php
                 foreach ($this->listeCommentaires as $commentaires) {
                     echo '<tr><td>', $commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250),'</td><td>',
-                    $commentaires->getDateAjout()->format('d/m/Y à H\hi'), '</td><td><a href="?modifier=', $commentaires->getId(), '" target="_blank">Modifier</a> | <a href="?supprimer=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
+                    $commentaires->getDateAjout()->format('d/m/Y à H\hi'), '</td><td><a href="?num=3&modifier=', $commentaires->getId(), '" target="_blank">Modifier</a> | <a href="?supprimer=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
                 }
                 ?>
             </table>

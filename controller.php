@@ -6,6 +6,8 @@ class Controller {
     {
         $db = DBFactory::getMysqlConnexionWithPDO();
         $manager2 = new CommentairesManager($db);
+        $commentaires = null;
+
 
         if (isset($_GET['modifier']))
         {
@@ -27,11 +29,12 @@ class Controller {
         $manager = new BilletsManager($db);
         $manager2 = new CommentairesManager($db);
         $message = null;
+        $billets = null;
 
 
         if (isset($_GET['modifier']))
         {
-            $billets = $manager->getUnique((int) $_GET['modifier']);
+            $billets = $manager->getUnique((int) $_GET['modifier']); //billet
         }
 
         if (isset($_GET['supprimer']))
@@ -91,18 +94,18 @@ class Controller {
             case 1:
 
         $viewAdmin = new ViewAdmin($listeBillets, $listeSignale, $manager);
-        $viewAdmin->display($message);
+        $viewAdmin->display($message); //supprimer message
         break;
 
             case 2:
-            $viewAdminBillets = new viewAdminBillets($listeBillets, $manager);
-            $viewAdminBillets->display($message);
+            $viewAdminBillets = new viewAdminBillets($listeBillets); //supprimer manager, ajouter $billets
+            $viewAdminBillets->display($message,$billets);
             break;
 
             case 3:
                 $listeCommentaires = $manager2->getList();
                 $viewAdminCommentaires = new viewAdminCommentaires($listeCommentaires, $listeSignale);
-                $viewAdminCommentaires->display($message);
+                $viewAdminCommentaires->display($message, $commentaires);
                 break;
         }
     }

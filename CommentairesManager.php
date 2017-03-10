@@ -43,7 +43,7 @@ class CommentairesManager
 
         if ($debut != -1 || $limite != -1)
         {
-            $sql = ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut;
+            $sql = ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut;//ecrase
         }
 
         $requete = $this->db->query($sql);
@@ -65,7 +65,7 @@ class CommentairesManager
 
     public function getUnique($id)
     {
-        $requete = $this->db->prepare('SELECT id, titre, contenu, dateAjout FROM commentaires WHERE id = :id');
+        $requete = $this->db->prepare('SELECT id, auteur, contenu, dateAjout FROM commentaires WHERE id = :id');
         $requete->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $requete->execute();
 
@@ -81,38 +81,62 @@ class CommentairesManager
 
     public function getCommentsByParentId ($parentId ) //, $isBillet)
         {
-            //if ($isBillet)
-            //{
-                $requete = $this->db->prepare('SELECT id, auteur, contenu, dateAjout FROM commentaires WHERE parentId = :parentId AND depth = 0');
-            //}
-
-            //else
-            //{
-             //   $requete = $this->db->prepare('SELECT id, auteur, contenu, dateAjout FROM commentaires WHERE parentId = :parentId AND depth != 0');
-            //}
-            //A COMPLETER
-           $requete->bindValue(':parentId', (int) $parentId, PDO::PARAM_INT);
+            $requete = $this->db->prepare('SELECT id, auteur, contenu, dateAjout FROM commentaires WHERE parentId = :parentId AND depth = 0');
+            $requete->bindValue(':parentId', (int) $parentId, PDO::PARAM_INT);
             $requete->execute();
 
-            //$requete = $this->db->query($sql);
             $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaires');
 
             $listeCommentairesId = $requete->fetchAll();
 
 
-
-
             foreach ($listeCommentairesId as $commentaires)
             {
                 $commentaires->setDateAjout(new DateTime($commentaires->getDateAjout()));
+                $this->getSubComments($commentaires);
                 //$commentaires->setDateModif(new DateTime($billets->dateModif()));
+                //get souscommentaire
             }
 
             $requete->closeCursor();
-
             return $listeCommentairesId;
         }
 
+    public function getSubComments($commentaires) {
+
+
+        $requete = $this->db->prepare('SELECT id, auteur, contenu, dateAjout FROM commentaires WHERE parentId = :parentId AND depth > 0');
+        $requete->bindValue(':parentId', (int) $commentaires->getId(), PDO::PARAM_INT);
+        //$requete->bindValue(':depth', (int) $commentaires->getDepth(), PDO::PARAM_INT);
+        $requete->execute();
+
+        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaires');
+        $listeSousCommentaires = $requete->fetchAll();
+
+        foreach ($listeSousCommentaires as $sousCommentaire) {
+            $sousCommentaire->setDateAjout(new DateTime($sousCommentaire->getDateAjout()));
+            $this->getSubComments($sousCommentaire);
+        }
+        $commentaires->setSousCommentaire($listeSousCommentaires);
+        $requete->closeCursor();
+    }
+
+    /*public function getSubComments1($commentaires) {
+        $requete = $this->db->prepare('SELECT id, auteur, contenu, dateAjout FROM commentaires WHERE parentId = :parentId AND depth = 2');
+        $requete->bindValue(':parentId', (int) $commentaires->getId(), PDO::PARAM_INT);
+        $requete->execute();
+
+        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaires');
+        $listeSousCommentaires = $requete->fetchAll();
+
+        foreach ($listeSousCommentaires as $sousCommentaire) {
+            $sousCommentaire->setDateAjout(new DateTime($sousCommentaire->getDateAjout()));
+            $this->getSubComments($sousCommentaire);
+        }
+        $commentaires->setSousCommentaire($listeSousCommentaires);
+        $requete->closeCursor();
+    }
+*/
     public function getCountByParentId ($parentId )
     {
         $requete = $this->db->prepare('SELECT COUNT(*) FROM commentaires WHERE parentId = :parentId');
@@ -179,12 +203,14 @@ class CommentairesManager
         return $listeSignale;
     }
 
-    public function signale(Commentaires $commentaires)
+    public function signale($id)
     {
 
+        $this->db->exec('UPDATE commentaires SET estSignale = TRUE WHERE id = '.(int)$id);
+/*var_dump($commentaires);
         $requete = $this->db->prepare('UPDATE commentaires SET estSignale = TRUE WHERE id = :id');
         $requete->bindValue(':id', $commentaires->getId(), PDO::PARAM_INT);
 
-        $requete->execute();
+        $requete->execute();*/
     }
 }
