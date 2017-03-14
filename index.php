@@ -174,7 +174,7 @@ if (isset($_GET['id']))
                             <span class="close">&times;</span>
                             <p>Ajouter un commentaire</p>
 
-                            <form action="http://127.0.0.1/projet%203/index.php?id=<?php $billets->getId() ?> method="
+                            <form action="http://127.0.0.1/projet3Repo/index.php?id=<?php $billets->getId() ?> method="
                                   post
                             ">
                             <?php

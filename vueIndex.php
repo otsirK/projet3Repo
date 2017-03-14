@@ -37,8 +37,8 @@ class ViewAdmin
     <div class="navbar navbar-default">
         <ul class="nav navbar-nav">
             <li class="active"> <a href="admin.php">Accueil administration</a>
-            <li> <a href="http://127.0.0.1/projet%203/admin.php?num=2">Gestion des billets</a> </li>
-            <li> <a href="http://127.0.0.1/projet%203/admin.php?num=3">Gestion des commentaires</a> </li>
+            <li> <a href="http://127.0.0.1/projet3Repo/admin.php?num=2">Gestion des billets</a> </li>
+            <li> <a href="http://127.0.0.1/projet3Repo/admin.php?num=3">Gestion des commentaires</a> </li>
             <li> <a href="index.php">Retour au blog</a> </li>
 
         </ul>

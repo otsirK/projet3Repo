@@ -40,8 +40,8 @@ class ViewAdminBillets
         <div class="navbar navbar-default">
             <ul class="nav navbar-nav">
                 <li><a href="admin.php">Accueil administration</a>
-                <li class="active"><a href="http://127.0.0.1/projet%203/admin.php?num=2">Gestion des billets</a></li>
-                <li><a href="http://127.0.0.1/projet%203/admin.php?num=3">Gestion des commentaires</a></li>
+                <li class="active"><a href="http://127.0.0.1/projet3Repo/admin.php?num=2">Gestion des billets</a></li>
+                <li><a href="http://127.0.0.1/projet3Repo/admin.php?num=3">Gestion des commentaires</a></li>
                 <li><a href="index.php">Retour au blog</a></li>
 
             </ul>
@@ -58,7 +58,7 @@ class ViewAdminBillets
 
             <span class="titreAdmin"><h2>Ajouter un billet</h2></span>
             <div class="formAdminBillet">
-            <form action="http://127.0.0.1/projet%203/admin.php?num=2" method="post">
+            <form action="http://127.0.0.1/projet3Repo/admin.php?num=2" method="post">
 
 
                     <label>Titre :</label> <br/><input type="text" class="champsTitre" name="titre"

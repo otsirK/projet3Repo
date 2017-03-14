@@ -37,8 +37,8 @@ class ViewAdmin
     <div class="navbar navbar-default">
         <ul class="nav navbar-nav">
             <li class="active"> <a href="admin.php">Accueil administration</a>
-            <li> <a href="http://127.0.0.1/projet%203/admin.php?num=2">Gestion des billets</a> </li>
-            <li> <a href="http://127.0.0.1/projet%203/admin.php?num=3">Gestion des commentaires</a> </li>
+            <li> <a href="http://127.0.0.1/projet3Repo/admin.php?num=2">Gestion des billets</a> </li>
+            <li> <a href="http://127.0.0.1/projet3Repo/admin.php?num=3">Gestion des commentaires</a> </li>
             <li> <a href="index.php">Retour au blog</a> </li>
 
         </ul>
@@ -61,7 +61,7 @@ class ViewAdmin
             {
                 echo '<tr ><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
                 $commentaires->getDateAjout(),'</td><td><a href="?num=3&modifier=', $commentaires->getId(),
-                '">Modifier</a> | <a href="http://127.0.0.1/projet%203/admin.php?num=3&supprimerCom=\', $commentaires->getId(), \'">Supprimer</a></td></tr>', "\n";
+                '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=\', $commentaires->getId(), \'">Supprimer</a></td></tr>', "\n";
             }
             ?>
         </table>
@@ -91,7 +91,7 @@ class ViewAdmin
             {
                 echo '<tr ><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
                 ($commentaires->getDateAjout()->format('d/m/Y à H\hi')),'</td><td><a href="?num=3&modifier=', $commentaires->getId(),
-                '">Modifier</a> | <a href="http://127.0.0.1/projet%203/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
+                '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
             }
             ?>
         </table>
