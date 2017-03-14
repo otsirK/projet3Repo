@@ -69,8 +69,8 @@ class ViewAdminBillets
                     <?php
                     if (isset($billets) && !$billets->isNew()) {
                         ?>
-                        <input type="hidden" name="id" value="<?= $billets->getId() ?>"/> // $this->billet
-                        <input type="submit" value="Modifier" name="modifier"/>
+                        <p><input type="hidden" name="id" value="<?= $billets->getId() ?>"/>
+                        <input type="submit" class="btn btn-default" value="Modifier" name="modifier"/></p>
                         <?php
                     } else {
                         ?>

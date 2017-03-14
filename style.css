@@ -80,7 +80,7 @@ form {
     padding: 20px;
     border-radius: 5px;
 }
-billet {
+.billet {
     text-align: center;
 }
 
@@ -116,8 +116,18 @@ tet-transform: uppercase;
     border-color: #0f0f0f;
     font-size: 12px;
     font-style: italic;
-    text-transform: lowercase;
     text-align: center;
+
+}
+.btn-suite a:hover {
+    color: #fff;
+
+}
+.btn-suite:hover {
+    background-color: #122b40;
+    color: #fff;
+    border-color: #0f0f0f;
+
 
 }
 .nbCommentaire {

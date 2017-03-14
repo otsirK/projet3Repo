@@ -223,7 +223,7 @@ else {
         }
 
         echo '<div class="jumbotron billet"><h2><a href="?id=', $billets->getId(), '">', $billets->getTitre(), '</a></h2>', "\n",
-        '<p><div class="contenu">', nl2br($contenu), '</div></p>', '<a class="btn btn-suite btn-lg" role="button" href="?id=' , $billets->getId(), '">',
+        '<p><div class="contenu">', nl2br($contenu), '</div></p>', '<a class="btn btn-info btn-lg" role="button" href="?id=' , $billets->getId(), '">',
         "Lire la suite", '</a>','<p>','<br /><div class="nbCommentaire">',  $managerCommentaire->getCountByParentId($parentId) , ' Commentaires','</div></p>','</div>';
     }
 }
