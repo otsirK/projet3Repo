@@ -94,8 +94,6 @@ form {
     text-align: left;
 }
 .billet h2{
-
-tet-transform: uppercase;
     font-variant: small-caps;
     text-align: left;
     border-bottom: 3px solid #333333;
@@ -222,64 +220,4 @@ color: #0A246A;
 }
 #formulaire{
     display:none;
-}
-/*.champsTitre{
-    color: red;
-    height: 60px;
-    max-width: 1600px;
-    padding: 150px;
-    font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-}
-
-
-
-/*
-.formulaire  input{
-    border:1px solid #ccc;
-    font-size:20px;
-    width:300px;
-    min-height:30px;
-    display:block;
-    margin-bottom:15px;
-    margin-top:5px;
-    outline: none;
-
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    -o-border-radius:5px;
-    -ms-border-radius:5px;
-    border-radius:5px;
-}
-
-input[type=submit] {
-    background:none;
-    width:auto;
-    padding:10px;
-    cursor: pointer;
-    margin-top: 15px;
-}
-
-/*table, td {
-    border: 1px solid black;
-
-
-
-}
-
-table {
-    margin:auto;
-    margin-bottom: 20px;
-    text-align: center;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-tr, th {
-    text-align: center;
-
-}
-
-td {
-    padding: 3px;
-    height: 25px;
 }

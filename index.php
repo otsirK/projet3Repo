@@ -134,7 +134,7 @@ if (isset($_GET['id']))
             //var_dump($sousCommentaire);
             echo '<li class="media thumbnail sousCommentaire">', '<strong>', $sousCommentaire->getAuteur(), '</strong> Le ',
             $sousCommentaire->getDateAjout()->format('d/m/Y à H\hi'), '<br/>', substr($sousCommentaire->getContenu(), 0, 250),
-            '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a><a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+            '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a> | <a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
         </div></li>';
 
             foreach ($sousCommentaire->getSousCommentaire() as $sousCommentaire1) {
@@ -142,7 +142,7 @@ if (isset($_GET['id']))
                 //var_dump($sousCommentaire);
                 echo '<li class="media thumbnail sousCommentaire1">', '<strong>', $sousCommentaire1->getAuteur(), '</strong> Le ',
                 $sousCommentaire1->getDateAjout()->format('d/m/Y à H\hi'), '<br/>', substr($sousCommentaire1->getContenu(), 0, 250),
-                '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a><a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+                '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a> | <a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
         </div></li>';
 
                 foreach ($sousCommentaire1->getSousCommentaire() as $sousCommentaire2) {
@@ -150,7 +150,7 @@ if (isset($_GET['id']))
                     //var_dump($sousCommentaire);
                     echo '<li class="media thumbnail sousCommentaire2">', '<strong>', $sousCommentaire2->getAuteur(), '</strong> Le ',
                     $sousCommentaire2->getDateAjout()->format('d/m/Y à H\hi'), '<br/>', substr($sousCommentaire2->getContenu(), 0, 250),
-                    '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a><a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+                    '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a> | <a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
         </div></li>';
                     ?>
 
@@ -174,9 +174,7 @@ if (isset($_GET['id']))
                             <span class="close">&times;</span>
                             <p>Ajouter un commentaire</p>
 
-                            <form action="http://127.0.0.1/projet3Repo/index.php?id=<?php $billets->getId() ?> method="
-                                  post
-                            ">
+                            <form action="http://127.0.0.1/projet3Repo/index.php?id=<?php $billets->getId() ?>" method="post">
                             <?php
 
                             if (isset($message)) {
