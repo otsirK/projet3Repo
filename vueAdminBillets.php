@@ -9,8 +9,6 @@ class ViewAdminBillets
     public function __construct($listeBillets) //($billets)
     {
         $this->listeBillets = $listeBillets;
-
-
     }
 
     public function display($message,$billets)
@@ -96,7 +94,7 @@ class ViewAdminBillets
                 foreach ($this->listeBillets as $billets) {
                     echo '<tr><td>', $billets->getTitre(), '</td><td>', substr($billets->getContenu(), 0, 250), ' ...', '</td><td>',
                     $billets->getDateAjout()->format('d/m/Y à H\hi'), '</td><td>', ($billets->getDateModif()->format('d/m/Y à H\hi')),
-                    '</td><td><a href="?num=2&modifier=', $billets->getId(), '" >Modifier</a> | <a href="?supprimer=', $billets->getId(), '">Supprimer</a></td></tr>', "\n";
+                    '</td><td><a href="?num=2&modifier=', $billets->getId(), '" >Modifier</a> | <a href="?num=2&supprimer=', $billets->getId(), '">Supprimer</a></td></tr>', "\n";
                 }
                 ?>
 

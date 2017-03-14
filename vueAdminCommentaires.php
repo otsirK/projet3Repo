@@ -10,7 +10,7 @@ class ViewAdminCommentaires
     {
         $this->listeCommentaires = $listeCommentaires;
         $this->listeSignale = $listeSignale;
-    }
+}
 
     public function display($message, $commentaires)
     {
@@ -47,7 +47,32 @@ class ViewAdminCommentaires
             {
                 echo '<div class ="alert-danger">', $message, '</div>';
             }
+
+        if (isset($_GET['modifier'])) {
             ?>
+
+            <form action="http://127.0.0.1/projet%203/admin.php?num=3" method="post">
+
+
+                <label>Titre :</label> <br/><input type="text" class="champsTitre" name="auteur"
+                                                   value="<?php if (isset($commentaires)) echo $commentaires->getAuteur(); ?>"/><br/>
+
+                <label>Contenu :</label><br/><textarea id="mytextarea" rows="8" cols="60"
+                                                       name="contenu"><?php if (isset($commentaires)) echo $commentaires->getContenu(); ?></textarea><br/>
+                <?php
+                if (isset($commentaires) && !$commentaires->isNew()) {
+                    ?>
+                    <input type="hidden" name="id" value="<?= $commentaires->getId() ?>"/>
+                    <input type="submit" value="Modifier" name="modifier"/>
+                    <?php
+                } else {
+                    ?>
+                    <p><input type="submit" class="btn btn-default" value="Ajouter"/></p>
+                    <?php
+                }
+                ?></form>
+        <?php }
+        ?>
 
             <span class="titreAdmin"><h2>Commentaires signalés</h2></span>
 
@@ -58,7 +83,7 @@ class ViewAdminCommentaires
                 foreach($this->listeSignale as $commentaires)
                 {
                     echo '<tr><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
-                    $commentaires->getDateAjout(),'</td><td><a href="?modifier=', $commentaires->getId(), '" target="_blank">Modifier</a> | <a href="?supprimer=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
+                    $commentaires->getDateAjout(),'</td><td><a href="?num=3&modifier=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet%203/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a> | <a href="http://127.0.0.1/projet%203/admin.php?num=3&valider=',$commentaires->getId(),'">Valider</a></td></tr>', "\n";
                 }
                 ?></table>
 
@@ -69,7 +94,7 @@ class ViewAdminCommentaires
                 <?php
                 foreach ($this->listeCommentaires as $commentaires) {
                     echo '<tr><td>', $commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250),'</td><td>',
-                    $commentaires->getDateAjout()->format('d/m/Y à H\hi'), '</td><td><a href="?num=3&modifier=', $commentaires->getId(), '" target="_blank">Modifier</a> | <a href="?supprimer=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
+                    $commentaires->getDateAjout()->format('d/m/Y à H\hi'), '</td><td><a href="?num=3&modifier=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet%203/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
                 }
                 ?>
             </table>

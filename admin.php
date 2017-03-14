@@ -15,4 +15,4 @@ require 'vueAdminCommentaires.php';
 
 $controller = new Controller();
 $controller->execute();
-$controller->executeCommentaires();
+//$controller->executeCommentaires();

@@ -2,18 +2,18 @@
 
 class ViewAdmin
 {
-    private $listeBillets,
-            $listeSignale,
+    private //$liste8Billets,
+            //$listeSignale,
             $message;
 
 
-    public function __construct($listeBillets,$listeSignale,$manager)
+    public function __construct($listeDerniersBillets,$listeSignale,$listeDerniersCom)
     {
-        $this->listeBillets = $listeBillets;
+        $this->listeDerniersBillets = $listeDerniersBillets;
         $this->listeSignale = $listeSignale;
-        $this->manager = $manager;
+        $this->listeDerniersCom = $listeDerniersCom;
         //$this->setMessage($message);
-        //var_dump($message);
+        //var_dump($liste8Billets);
     }
 
     public function display($message)
@@ -46,9 +46,7 @@ class ViewAdmin
 
     <div class="container">
                 <?php
-                var_dump($message);
                 if (isset($message))
-                    //if ($message != null)
                 {
                     echo '<div class ="alert-danger">', $message, '</div>';
                 }
@@ -62,61 +60,38 @@ class ViewAdmin
             foreach($this->listeSignale as $commentaires)
             {
                 echo '<tr ><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
-                $commentaires->getDateAjout(),'</td><td><a href="?modifier=', $commentaires->getId(), '" target="_blank">Modifier</a> | <a href="?supprimer=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
+                $commentaires->getDateAjout(),'</td><td><a href="?num=3&modifier=', $commentaires->getId(),
+                '">Modifier</a> | <a href="http://127.0.0.1/projet%203/admin.php?num=3&supprimerCom=\', $commentaires->getId(), \'">Supprimer</a></td></tr>', "\n";
             }
             ?>
         </table>
 
-        <span class="titreAdmin"><h2>Ajouter un billet</h2></span>
 
-                <form class="formulaire" action="admin.php" method="post">
-            <p>
-
-                Titre : <input type="text" name="titre" value="<?php if (isset($billets)) echo $billets->getTitre(); ?>" /><br />
-
-                Contenu :<br /><textarea rows="8" cols="60" name="contenu"><?php if (isset($billets)) echo $billets->getContenu(); ?></textarea><br />
-
-                <?php
-                if(isset($billets) && !$billets->isNew())
-                {
-                    ?>
-                    <input type="hidden" name="id" value="<?= $billets->getId() ?>" />
-                    <input type="submit" value="Modifier" name="modifier" />
-                    <?php
-                }
-                else
-                {
-                    ?>
-                    <input type="submit" class="btn btn-default" value="Ajouter" />
-                    <?php
-                }
-                ?>
-            </p>
-        </form>
-        <span class="titreAdmin"><h2>Les 8 derniers billets publiés</h2></span>
+        <span class="titreAdmin"><h2>Les 5 derniers billets publiés</h2></span>
 
         <table class="table table-striped">
             <tr><th>Titre</th><th>Contenu</th><th>Date d'ajout</th><th>Dernière modification</th><th>Action</th></tr>
               <?php
-        foreach ($this->listeBillets as $billets) {
+        foreach ($this->listeDerniersBillets as $billets) {
             echo '<tr><td>', $billets->getTitre(), '</td><td>', substr ($billets->getContenu(), 0, 250), ' ...', '</td><td>',
             $billets->getDateAjout()->format('d/m/Y à H\hi'), '</td><td>', ($billets->getDateAjout()->format('d/m/Y à H\hi')),
-            '</td><td><a href="?modifier=', $billets->getId(), '">Modifier</a> | <a href="?supprimer=', $billets->getId(), '">Supprimer</a></td></tr>', "\n";
+            '</td><td><a href="?num=2&modifier=', $billets->getId(), '">Modifier</a> | <a href="?num=2&supprimer=',$billets->getId(),'">Supprimer</a></td></tr>', "\n";
         }
 ?>
 </table>
 
 
-        <h2>Commentaires signalés</h2>
+        <h2>Les 5 derniers commentaires</h2>
 
         <table class="table table-striped">
             <tr><th>Auteur</th><th>Commentaire</th><th>Date d'ajout</th><th>Action</th></tr>
 
             <?php
-            foreach($this->listeSignale as $commentaires)
+            foreach($this->listeDerniersCom as $commentaires)
             {
                 echo '<tr ><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
-                $commentaires->getDateAjout(),'</td><td><a href="?modifier=', $commentaires->getId(), '" target="_blank">Modifier</a> | <a href="?supprimer=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
+                ($commentaires->getDateAjout()->format('d/m/Y à H\hi')),'</td><td><a href="?num=3&modifier=', $commentaires->getId(),
+                '">Modifier</a> | <a href="http://127.0.0.1/projet%203/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
             }
             ?>
         </table>

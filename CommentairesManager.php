@@ -43,7 +43,7 @@ class CommentairesManager
 
         if ($debut != -1 || $limite != -1)
         {
-            $sql = ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut;//ecrase
+            $sql .= ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut;//ecrase
         }
 
         $requete = $this->db->query($sql);
@@ -69,7 +69,7 @@ class CommentairesManager
         $requete->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $requete->execute();
 
-        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commmentaires');
+        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaires');
 
         $commentaires = $requete->fetch();
 
@@ -167,7 +167,7 @@ class CommentairesManager
 
     public function update(Commentaires $commentaires)
     {
-        $requete = $this->db->prepare('UPDATE commentaires SET auteur = :auteur, contenu = :contenu, dateModif = NOW() WHERE id = :id');
+        $requete = $this->db->prepare('UPDATE commentaires SET auteur = :auteur, contenu = :contenu /*dateModif = NOW()*/ WHERE id = :id');
 
         $requete->bindValue(':auteur', $commentaires->getAuteur());
         $requete->bindValue(':contenu', $commentaires->getContenu());
@@ -183,7 +183,7 @@ class CommentairesManager
 
         if ($debut != -1 || $limite != -1)
         {
-            $sql = ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut;
+            $sql .= ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut;
         }
 
         $requete = $this->db->query($sql);
@@ -212,5 +212,10 @@ class CommentairesManager
         $requete->bindValue(':id', $commentaires->getId(), PDO::PARAM_INT);
 
         $requete->execute();*/
+    }
+
+    public function valide($id)
+    {
+        $this->db->exec('UPDATE commentaires SET estSignale = FALSE WHERE id = '.(int)$id);
     }
 }

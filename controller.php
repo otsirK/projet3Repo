@@ -2,7 +2,7 @@
 
 class Controller {
 
-    public function executeCommentaires()
+   /* public function executeCommentaires()
     {
         $db = DBFactory::getMysqlConnexionWithPDO();
         $manager2 = new CommentairesManager($db);
@@ -19,27 +19,64 @@ class Controller {
             $manager2->delete((int) $_GET['supprimer']);
             $message = 'Le commentaire a bien été supprimé !';
         }
-    }
+    }*/
 
 
     public function execute()
     {
 
         $db = DBFactory::getMysqlConnexionWithPDO();
-        $manager = new BilletsManager($db);
-        $manager2 = new CommentairesManager($db);
+        $managerBillet = new BilletsManager($db);
+        $managerCommentaire = new CommentairesManager($db);
         $message = null;
         $billets = null;
+        $commentaires = null;
+        if (isset($_GET['modifier']))
+        {
+            $commentaires = $managerCommentaire->getUnique((int) $_GET['modifier']);
+        }
 
+        if (isset($_GET['supprimerCom']))
+        {
+            $managerCommentaire->delete((int) $_GET['supprimerCom']);
+            $message = 'Le commentaire a bien été supprimé !';
+        }
+
+        if (isset($_POST['auteur'])) {
+            $commentaires = new Commentaires(
+                [
+                    'auteur' => $_POST['auteur'],
+                    'contenu' => $_POST['contenu']
+                ]
+            );
+
+            if (isset($_POST['id'])) {
+                $commentaires->setId($_POST['id']);
+            }
+
+            if ($commentaires->isValid()) {
+                $managerCommentaire->save($commentaires);
+
+                $message = $commentaires->isNew() ? 'Le commentaire a bien été ajouté !' : 'Le commentaire a bien été modifié !';
+            } else {
+                $erreurs = $commentaires->getErreurs();
+            }
+        }
+
+        if (isset($_GET['valider']))
+        {
+            $managerCommentaire->valide((int) $_GET['valider']);
+            $message = 'Le billet a bien été validé !';
+        }
 
         if (isset($_GET['modifier']))
         {
-            $billets = $manager->getUnique((int) $_GET['modifier']); //billet
+            $billets = $managerBillet->getUnique((int) $_GET['modifier']); //billet
         }
 
         if (isset($_GET['supprimer']))
         {
-            $manager->delete((int) $_GET['supprimer']);
+            $managerBillet->delete((int) $_GET['supprimer']);
             $message = 'Le billet a bien été supprimé !';
         }
 
@@ -59,7 +96,7 @@ class Controller {
 
             if ($billets->isValid())
             {
-                $manager->save($billets);
+                $managerBillet->save($billets);
 
                 $message = $billets->isNew() ? 'Le billet a bien été ajouté !' : 'Le billet a bien été modifié !';
             }
@@ -78,8 +115,10 @@ class Controller {
         }
 
 
-        $listeBillets = $manager->getList();
-        $listeSignale = $manager2->getListeSignale();
+        $listeBillets = $managerBillet->getList();
+        $listeDerniersBillets = $managerBillet->getList(0, 5);
+        $listeSignale = $managerCommentaire->getListeSignale();
+        $listeDerniersCom = $managerCommentaire->getList(0, 5);
         //$id = $billets->getId();
         //$this->message = $message;
 
@@ -93,17 +132,17 @@ class Controller {
         switch($numOnglet) {
             case 1:
 
-        $viewAdmin = new ViewAdmin($listeBillets, $listeSignale, $manager);
+        $viewAdmin = new ViewAdmin($listeDerniersBillets, $listeSignale, $listeDerniersCom);
         $viewAdmin->display($message); //supprimer message
         break;
 
             case 2:
-            $viewAdminBillets = new viewAdminBillets($listeBillets); //supprimer manager, ajouter $billets
+            $viewAdminBillets = new viewAdminBillets($listeBillets);
             $viewAdminBillets->display($message,$billets);
             break;
 
             case 3:
-                $listeCommentaires = $manager2->getList();
+                $listeCommentaires = $managerCommentaire->getList();
                 $viewAdminCommentaires = new viewAdminCommentaires($listeCommentaires, $listeSignale);
                 $viewAdminCommentaires->display($message, $commentaires);
                 break;

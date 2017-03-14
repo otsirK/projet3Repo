@@ -36,14 +36,15 @@ class BilletsManager
 
 	public function getList($debut = -1, $limite = -1)
 {
-    $sql = 'SELECT id, titre, contenu, dateAjout, dateModif From billets ORDER BY id ASC';
+    $sql = 'SELECT id, titre, contenu, dateAjout, dateModif From billets ORDER BY id DESC';
 
     if ($debut != -1 || $limite != -1)
 {
-    $sql = ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut; //+=
+    $sql .= ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut; //+=
 }
+    $requete = $this->db->query($sql);
 
-    $requete = $this->db->query('SELECT id, titre, contenu, dateAjout, dateModif From billets ORDER BY id ASC');
+    //$requete = $this->db->query('SELECT id, titre, contenu, dateAjout, dateModif From billets ORDER BY id ASC');
     $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Billets');
 
     $listeBillets = $requete->fetchAll();
@@ -66,10 +67,10 @@ class BilletsManager
 
         if ($debut != -1 || $limite != -1)
         {
-            $sql = ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut;
+            $sql .= ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut;
         }
-
-        $requete = $this->db->query('SELECT id, titre, contenu, dateAjout From billets ORDER BY id ASC');
+        $requete = $this->db->query($sql);
+        //$requete = $this->db->query('SELECT id, titre, contenu, dateAjout From billets ORDER BY id ASC');
         $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Billets');
 
         $listeBillets = $requete->fetchAll();
@@ -97,7 +98,7 @@ class BilletsManager
         $billets = $requete->fetch();
 
         $billets->setDateAjout(new DateTime($billets->getDateAjout()));
-        $billets->setDateModif(new DateTime($billets->getDateModif()));
+        //$billets->setDateModif(new DateTime($billets->getDateModif()));
 
         return $billets;
     }

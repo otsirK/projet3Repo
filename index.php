@@ -2,8 +2,8 @@
 require 'autoload.php';
 
 $db = DBFactory::getMysqlConnexionWithPDO();
-$manager = new BilletsManager($db); //$billetManager
-$manager2 = new CommentairesManager($db); //$commentaireManager
+$managerBillet = new BilletsManager($db); //$billetManager
+$managerCommentaire = new CommentairesManager($db); //$commentaireManager
 
 if (isset($_POST['auteur']))
 {
@@ -22,7 +22,7 @@ if (isset($_POST['auteur']))
 
     if ($commentaires->isValid())
     {
-        $manager2->save($commentaires);
+        $managerCommentaire->save($commentaires);
         $message = $commentaires->isNew() ? 'Le commentaire a bien été ajouté !' : 'La news a bien été modifiée !';
     }
     else
@@ -33,8 +33,8 @@ if (isset($_POST['auteur']))
 
 if (isset($_GET['signaler']))
 {
-    $manager2->signale((int) $_GET['signaler']);
-    $message = 'Le billet a bien été signalé !';
+    $managerCommentaire->signale((int) $_GET['signaler']);
+    $message = 'Le commentaire a bien été signalé !';
 }
 
 ?>
@@ -58,8 +58,8 @@ if (isset($_GET['signaler']))
         </ul>
     </div>
 
-    <div class="cntainer">
-        <div class="row top">
+    <div class="index">
+        <div class="imgTop top">
             <div class="col-lg-3"></div>
             <div class="col-lg-6 titreSite"><h1> Billet simple pour l'alaska</h1>
                 <p>Par Jean Forteroche</p></div>
@@ -68,32 +68,31 @@ if (isset($_GET['signaler']))
 
 
             <div class="container">
-
+<div class="umbotron">
 <?php
+
 if (isset($_GET['id']))
 {
 
-    $billets = $manager->getUnique((int)$_GET['id']);
+    $billets = $managerBillet->getUnique((int)$_GET['id']);
     $parentId = $billets->getId();
-    //$commentaires2 = $manager2->getList();
-    var_dump($parentId);
     $form = new Form($_POST);
 
     echo '<h2>', $billets->getTitre(), '</h2>', "\n",
          '<p>', nl2br($billets->getContenu()), '</p>', "\n",
          '<p>Publié le ', $billets->getDateAjout()->format('d/m/Y à H\hi'), '</p>', "\n";
 
-    ?>
+    ?></div>
     <h2>Commentaires :</h2>
+                <?php
+                if (isset($message))
+                {
+                    echo '<div class ="alert-danger">', $message, '</div>';
+                }
+                ?>
 
     <form action="#" method="post">
-        <?php
 
-        if (isset($message))
-        {
-            echo '<div class ="alert-danger">', $message, '</div>';
-        }
-        ?>
 
         <?php if (isset($erreurs) && in_array(Commentaires::AUTEUR_INVALIDE, $erreurs)) echo '<div class ="alert-danger">Le pseudo est invalide.</div>'; ?>
         <label>Pseudo :</label><br /> <input type="text" name="auteur" value="<?php if (isset($commentaires)) echo $commentaires->getAuteur(); ?>" /><br />
@@ -121,10 +120,10 @@ if (isset($_GET['id']))
 
     <div class="media-list col-lg-7">
 
-    <?php foreach ($manager2->getCommentsByParentId($parentId) as $commentaires) {
+    <?php foreach ($managerCommentaire->getCommentsByParentId($parentId) as $commentaires) {
         echo '<li class="commentaire media thumbnail "><img src="Web/images/avatar92.png" alt="Avatar">','<strong>', $commentaires->getAuteur(), '</strong> Le ',
         $commentaires->getDateAjout()->format('d/m/Y à H\hi'),'<br/>',substr ($commentaires->getContenu(), 0, 250),
-        '<div class="lienCommentaire"><a id="myBtn" href="#" >Répondre</a> | <a href="?id=',$billets->getId(),'&signaler=',$commentaires->getId(),'">Signaler</a>
+        '<div class="lienCommentaire"><a id="myBtn" href="?id=',$commentaires->getId(),'" >Répondre</a> | <a href="?id=',$billets->getId(),'&signaler=',$commentaires->getId(),'">Signaler</a>
         </div></li>';?>
 
 
@@ -210,9 +209,9 @@ if (isset($_GET['id']))
 }
 
 else {
-    echo '<h2> Liste des derniers billets</h2>';
+    //echo '<h2> Liste des derniers billets</h2>';
 
-    foreach ($manager->getList(0, 5) as $billets) {
+    foreach ($managerBillet->getList() as $billets) {
         if (strlen($billets->getContenu()) <= 200) {
             $contenu = $billets->getContenu();
         } else {
@@ -223,9 +222,9 @@ else {
             $parentId = $billets->getId();
         }
 
-        echo '<div class="jumbotron"><h3><a href="?id=', $billets->getId(), '">', $billets->getTitre(), '</a></h3>', "\n",
-        '<p>', nl2br($contenu), '</p>', '<a class="btn btn-info btn-lg" role="button" href="?id=' , $billets->getId(), '">',
-        "Lire la suite", '</a>','<p>','<br />',  $manager2->getCountByParentId($parentId) , ' Commentaires','</p>','</div>';
+        echo '<div class="jumbotron billet"><h2><a href="?id=', $billets->getId(), '">', $billets->getTitre(), '</a></h2>', "\n",
+        '<p><div class="contenu">', nl2br($contenu), '</div></p>', '<a class="btn btn-suite btn-lg" role="button" href="?id=' , $billets->getId(), '">',
+        "Lire la suite", '</a>','<p>','<br /><div class="nbCommentaire">',  $managerCommentaire->getCountByParentId($parentId) , ' Commentaires','</div></p>','</div>';
     }
 }
 ?>
@@ -274,5 +273,6 @@ else {
             }
         }
     </script>
+            </div></div>
     </body>
 </html>

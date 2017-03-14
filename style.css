@@ -1,14 +1,20 @@
-/*body {
-    background-image: url("images/alaska.jpg");
-    background-attachment:fixed;
-}*/
+.container p{
+    font-size: 13px;
+}
 
-.row {
+.ndex {
+    background-image: url("Web/images/papier2.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+.imgTop {
     background-color: #2aabd2;
     background-image: url("Web/images/alaska3.jpg");
     background-repeat: no-repeat;
     height: 250px;
     margin-top: -20px;
+    margin-bottom: 20px;
 }
 .top {
     background-color: black;
@@ -21,8 +27,6 @@
     font-weight: bold;
     font-size: large;
     background-color: black;
-    /*opacity: 0.6;*/
-
 }
 
 .titreSite h1{
@@ -30,17 +34,12 @@
     font-size: 50px;
     color: #dff0d8;
     font-variant: small-caps;
-
-
 }
 
 .titreSite p{
     font-style: italic;
     font-size: 25px;
     color: #dff0d8;
-
-
-
 }
 
 
@@ -61,8 +60,6 @@
 
 .titreAdmin h2{
     color: #122b40;
-    background-color: ;
-    font-weight: old;
     font-variant: small-caps;
     padding-left: 5px;
     border-bottom: 3px solid #122b40;
@@ -83,7 +80,59 @@ form {
     padding: 20px;
     border-radius: 5px;
 }
+billet {
+    text-align: center;
+}
 
+.contenu {
+    font-size: 18px;
+    text-align: left;
+}
+
+.jumbotron p{
+    font-size: 18px;
+    text-align: left;
+}
+.billet h2{
+
+tet-transform: uppercase;
+    font-variant: small-caps;
+    text-align: left;
+    border-bottom: 3px solid #333333;
+
+}
+
+.billet a:hover {
+    text-decoration: none;
+}
+
+.billet .btn {
+    margin-top: 15px;
+}
+
+.btn-suite {
+    background-color: #337ab7;
+    color: #fff;
+    border-color: #0f0f0f;
+    font-size: 12px;
+    font-style: italic;
+    text-transform: lowercase;
+    text-align: center;
+
+}
+.nbCommentaire {
+    text-align: left;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    color: #337ab7;
+    margin-top: -20px;
+}
+
+.billetUnique{
+    background-color: white;
+    opacity: 0.8;
+}
 .commentaire{
     margin-top: 20px;
 background-color: #2aabd2;
