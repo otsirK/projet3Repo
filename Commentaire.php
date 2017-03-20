@@ -1,6 +1,6 @@
 <?php
 
-class Commentaires
+class Commentaire
 {
 	private   $id,
               $depth,

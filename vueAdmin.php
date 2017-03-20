@@ -12,8 +12,7 @@ class ViewAdmin
         $this->listeDerniersBillets = $listeDerniersBillets;
         $this->listeSignale = $listeSignale;
         $this->listeDerniersCom = $listeDerniersCom;
-        //$this->setMessage($message);
-        //var_dump($liste8Billets);
+
     }
 
     public function display($message)

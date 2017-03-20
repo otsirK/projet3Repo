@@ -43,11 +43,13 @@ class ViewAdminCommentaires
         <div class="container">
 
             <?php
+            /* AFFICHAGE DES MESSAGES D INFORMATIONS*/
             if (isset($message))
             {
                 echo '<div class ="alert-danger">', $message, '</div>';
             }
 
+            /* AFFICHAGE D UN FORMULAIRE SI 'modifierCom' EST PRESENT DANS L URL */
         if (isset($_GET['modifierCom'])) {
             ?>
 
@@ -80,6 +82,7 @@ class ViewAdminCommentaires
                 <tr><th>Auteur</th><th>Commentaire</th><th>Date d'ajout</th><th>Action</th></tr>
 
                 <?php
+                /* RECUPERATION DES COMMENTAIRES SIGNALES */
                 foreach($this->listeSignale as $commentaires)
                 {
                     echo '<tr><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
@@ -92,6 +95,7 @@ class ViewAdminCommentaires
             <table class="table table-striped">
                 <tr><th>Auteur</th><th>Commentaires</th><th>Date d'ajout</th><th>Action</th></tr>
                 <?php
+                /* RECUPERATION DE TOUS LES COMMENTAIRES*/
                 foreach ($this->listeCommentaires as $commentaires) {
                     echo '<tr><td>', $commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250),'</td><td>',
                     $commentaires->getDateAjout()->format('d/m/Y à H\hi'), '</td><td><a href="?num=3&modifierCom=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";

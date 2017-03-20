@@ -1,5 +1,5 @@
 <?php
-class BilletsManager
+class BilletManager
 {
 	private $db;
 
@@ -12,16 +12,19 @@ class BilletsManager
         $this->db = $db;
     }
 
-	public function add(Billets $billets)
+    /* Ajout d'un billet */
+
+	public function add(Billet $billet)
 	{
-	    $requete = $this->db->prepare('INSERT INTO billets(titre, contenu, dateAjout) VALUES (:titre, :contenu, NOW())');
-		$requete->bindValue(':titre', $billets->getTitre());
-        $requete->bindValue(':contenu', $billets->getContenu());
-        //$requete->bindValue(':dateAjout', $billets->getDateAjout());
+	    $requete = $this->db->prepare('INSERT INTO billets(titre, contenu, dateAjout, dateModif) VALUES (:titre, :contenu, NOW(), NOW())');
+		$requete->bindValue(':titre', $billet->getTitre());
+        $requete->bindValue(':contenu', $billet->getContenu());
 
         $requete->execute();
 
 	}
+
+	/* Compter le nombre de billets */
 
     public function count()
     {
@@ -33,6 +36,7 @@ class BilletsManager
 		$this->db->exec('DELETE FROM billets WHERE id = '.(int)$id);
 	}
 
+	/* Liste de billets par id */
 
 	public function getList($debut = -1, $limite = -1)
 {
@@ -45,15 +49,15 @@ class BilletsManager
     $requete = $this->db->query($sql);
 
     //$requete = $this->db->query('SELECT id, titre, contenu, dateAjout, dateModif From billets ORDER BY id ASC');
-    $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Billets');
+    $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Billet');
 
     $listeBillets = $requete->fetchAll();
 
     // On parcourt notre liste de Billets pour pouvoir placer des instances de DateTime en guise de dates d'ajout et de modification.
-    foreach ($listeBillets as $billets)
+    foreach ($listeBillets as $billet)
     {
-        $billets->setDateAjout(new DateTime($billets->getDateAjout()));
-        $billets->setDateModif(new DateTime($billets->getDateModif()));
+        $billet->setDateAjout(new DateTime($billet->getDateAjout()));
+        $billet->setDateModif(new DateTime($billet->getDateModif()));
     }
 
     $requete->closeCursor();
@@ -61,6 +65,7 @@ class BilletsManager
     return $listeBillets;
 }
 
+// A supprimer
     public function getListLast($debut = -1, $limite = -1)
     {
         $sql = 'SELECT id, titre, contenu, dateAjout From billets LIMIT 0,5 ORDER BY id ASC';
@@ -71,15 +76,15 @@ class BilletsManager
         }
         $requete = $this->db->query($sql);
         //$requete = $this->db->query('SELECT id, titre, contenu, dateAjout From billets ORDER BY id ASC');
-        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Billets');
+        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Billet');
 
         $listeBillets = $requete->fetchAll();
 
         // On parcourt notre liste de Billets pour pouvoir placer des instances de DateTime en guise de dates d'ajout et de modification.
-        foreach ($listeBillets as $billets)
+        foreach ($listeBillets as $billet)
         {
-            $billets->setDateAjout(new DateTime($billets->getDateAjout()));
-            $billets->setDateModif(new DateTime($billets->getDateModif()));
+            $billet->setDateAjout(new DateTime($billet->getDateAjout()));
+            $billet->setDateModif(new DateTime($billet->getDateModif()));
         }
 
         $requete->closeCursor();
@@ -87,27 +92,31 @@ class BilletsManager
         return $listeBillets;
     }
 
+    /* Récupérer un billet avec l'id */
+
 	public function getUnique($id)
     {
         $requete = $this->db->prepare('SELECT id, titre, contenu, dateAjout FROM billets WHERE id = :id');
         $requete->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $requete->execute();
 
-        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Billets');
+        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Billet');
 
-        $billets = $requete->fetch();
+        $billet = $requete->fetch();
 
-        $billets->setDateAjout(new DateTime($billets->getDateAjout()));
+        $billet->setDateAjout(new DateTime($billet->getDateAjout()));
         //$billets->setDateModif(new DateTime($billets->getDateModif()));
 
-        return $billets;
+        return $billet;
     }
 
-    public function save(Billets $billets)
+    /* Sauvegegarder un billet dans la bdd */
+
+    public function save(Billet $billet)
     {
-        if ($billets->isValid())
+        if ($billet->isValid())
         {
-            $billets->isNew() ? $this->add($billets) : $this->update($billets);
+            $billet->isNew() ? $this->add($billet) : $this->update($billet);
         }
         else
         {
@@ -115,14 +124,15 @@ class BilletsManager
         }
     }
 
+    /* Mettre à jour la bdd */
 
-    public function update(Billets $billets)
+    public function update(Billet $billet)
     {
         $requete = $this->db->prepare('UPDATE billets SET titre = :titre, contenu = :contenu, dateModif = NOW() WHERE id = :id');
 
-        $requete->bindValue(':titre', $billets->getTitre());
-        $requete->bindValue(':contenu', $billets->getContenu());
-        $requete->bindValue(':id', $billets->getId(), PDO::PARAM_INT);
+        $requete->bindValue(':titre', $billet->getTitre());
+        $requete->bindValue(':contenu', $billet->getContenu());
+        $requete->bindValue(':id', $billet->getId(), PDO::PARAM_INT);
 
         $requete->execute();
     }

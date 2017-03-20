@@ -3,10 +3,8 @@
 class ViewAdminBillets
 {
     private $listeBillets;
-            //$billets; //billets
 
-
-    public function __construct($listeBillets) //($billets)
+    public function __construct($listeBillets)
     {
         $this->listeBillets = $listeBillets;
     }
@@ -50,6 +48,7 @@ class ViewAdminBillets
         <div class="container">
 
             <?php
+            /* AFFICHAGE DES MESSAGES D INFORMATION */
             if (isset($message))
             {
                 echo '<div class ="alert-danger">', $message, '</div>';
@@ -57,6 +56,8 @@ class ViewAdminBillets
             ?>
 
             <span class="titreAdmin"><h2>Ajouter un billet</h2></span>
+
+            <!-- FORMULAIRE POUR AJOUTER UN BILLET -->
             <div class="formAdminBillet">
             <form action="http://127.0.0.1/projet3Repo/admin.php?num=2" method="post">
 
@@ -91,6 +92,7 @@ class ViewAdminBillets
                     <th>Action</th>
                 </tr>
                 <?php
+                /* RECUPERATIONS DE TOUS LES BILLETS PUBLIES */
                 foreach ($this->listeBillets as $billets) {
                     echo '<tr><td>', $billets->getTitre(), '</td><td>', substr($billets->getContenu(), 0, 250), ' ...', '</td><td>',
                     $billets->getDateAjout()->format('d/m/Y à H\hi'), '</td><td>', ($billets->getDateModif()->format('d/m/Y à H\hi')),

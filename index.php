@@ -2,12 +2,14 @@
 require 'autoload.php';
 
 $db = DBFactory::getMysqlConnexionWithPDO();
-$managerBillet = new BilletsManager($db); //$billetManager
-$managerCommentaire = new CommentairesManager($db); //$commentaireManager
+$managerBillet = new BilletManager($db);
+$managerCommentaire = new CommentaireManager($db);
+
+/* AJOUT D UN COMMENTAIRE */
 
 if (isset($_POST['auteur']))
 {
-    $commentaires = new Commentaires(
+    $commentaire = new Commentaire(
         [
             'auteur' => $_POST['auteur'],
             'contenu' => $_POST['contenu'],
@@ -17,19 +19,21 @@ if (isset($_POST['auteur']))
 
     if (isset($_POST['id']))
     {
-        $commentaires->setId($_POST['id']);
+        $commentaire->setId($_POST['id']);
     }
 
-    if ($commentaires->isValid())
+    if ($commentaire->isValid())
     {
-        $managerCommentaire->save($commentaires);
-        $message = $commentaires->isNew() ? 'Le commentaire a bien été ajouté !' : 'Le commentaire a bien été modifiée !';
+        $managerCommentaire->save($commentaire);
+        $message = $commentaire->isNew() ? 'Le commentaire a bien été ajouté !' : 'Le commentaire a bien été modifiée !';
     }
     else
     {
-        $erreurs = $commentaires->getErreurs();
+        $erreurs = $commentaire->getErreurs();
     }
 }
+
+/* SIGNALER UN COMMENTAIRE */
 
 if (isset($_GET['signaler']))
 {
@@ -109,6 +113,11 @@ if (isset($_GET['signaler']))
                     addCom();
                 });
 
+                function ouvrir () {
+                    alert('test');
+                    /*dialog.dialog( "open" );*/
+                }
+
                 $( "#btnReponse" ).button().on( "click", function() {
                     dialog.dialog( "open" );
                 });
@@ -143,12 +152,14 @@ if (isset($_GET['signaler']))
 if (isset($_GET['id']))
 {
 
-    $billets = $managerBillet->getUnique((int)$_GET['id']);
-    $parentId = $billets->getId();
+    /* AFFICHAGE D UN BILLET ET DE SES COMMENTAIRES */
 
-    echo '<h2>', $billets->getTitre(), '</h2>', "\n",
-         '<p>', nl2br($billets->getContenu()), '</p>', "\n",
-         '<p>Publié le ', $billets->getDateAjout()->format('d/m/Y à H\hi'), '</p>', "\n";
+    $billet = $managerBillet->getUnique((int)$_GET['id']);
+    $parentId = $billet->getId();
+
+    echo '<h2>', $billet->getTitre(), '</h2>', "\n",
+         '<p>', nl2br($billet->getContenu()), '</p>', "\n",
+         '<p>Publié le ', $billet->getDateAjout()->format('d/m/Y à H\hi'), '</p>', "\n";
 
     ?></div>
     <h2>Commentaires :</h2>
@@ -161,6 +172,7 @@ if (isset($_GET['id']))
 
     <form action="#" method="post">
 
+        <!-- Formulaire pour ajouter un commentaire -->
 
         <?php if (isset($erreurs) && in_array(Commentaires::AUTEUR_INVALIDE, $erreurs)) echo '<div class ="alert-danger">Le pseudo est invalide.</div>'; ?>
         <label>Pseudo :</label><br /> <input type="text" name="auteur" value="<?php if (isset($commentaires)) echo $commentaires->getAuteur(); ?>" /><br />
@@ -168,44 +180,49 @@ if (isset($_GET['id']))
         <?php if (isset($erreurs) && in_array(Commentaires::CONTENU_INVALIDE, $erreurs)) echo '<br /><div class ="alert-danger">Le contenu est invalide.</div>'; ?>
         <label>Commentaire :</label><br /><textarea rows="4" cols="60" name="contenu"><?php if (isset($commentaires)) echo $commentaires->getContenu(); ?></textarea><br />
 
-        <input type="hidden" name="parentId" value="<?= $billets->getId() ?>" />
+        <input type="hidden" name="parentId" value="<?= $billet->getId() ?>" />
         <input type="submit" class="btn btn-default" value="Ajouter" /></form>
 
     <br/>
 
     <div class="media-list col-lg-7">
 
+        <!-- AFFICHAGE DES COMMENTAIRES -->
+
     <?php foreach ($managerCommentaire->getCommentsByParentId($parentId) as $commentaires) {
         echo '<li class="commentaire media thumbnail "><img src="Web/images/avatar92.png" alt="Avatar">','<strong>', $commentaires->getAuteur(), '</strong> Le ',
         $commentaires->getDateAjout()->format('d/m/Y à H\hi'),'<br/>',substr ($commentaires->getContenu(), 0, 250),
-        '<div class="lienCommentaire"><a id="btnReponse" onclick=" reponseForm( '.$commentaires->getId().');" >Répondre</a> | <button onclick=" toggleForm( '.$commentaires->getId().');">Commenter</button> | <a href="?id=',$billets->getId(),'&signaler=',$commentaires->getId(),'">Signaler</a>
+        '<div class="lienCommentaire"><a href="#btnReponse" onclick="ouvrir()" >Répondre</a> | <button onclick=" toggleForm( '.$commentaires->getId().');">Commenter</button> | <a href="?id=',$billet->getId(),'&signaler=',$commentaires->getId(),'">Signaler</a>
         </div></li>';?>
 
 
             <?php
+        /* AFFICHAGE DES SOUS COMMENTAIRES DE NIVEAU 1 */
 
         foreach ($commentaires->getSousCommentaire() as $sousCommentaire) {
 
-            //var_dump($sousCommentaire);
             echo '<li class="media thumbnail sousCommentaire">', '<strong>', $sousCommentaire->getAuteur(), '</strong> Le ',
             $sousCommentaire->getDateAjout()->format('d/m/Y à H\hi'), '<br/>', substr($sousCommentaire->getContenu(), 0, 250),
-            '<div class="lienCommentaire"><button id="create-user" onclick="toggleForm( '.$sousCommentaire->getId().','.$billets->getId().');">Commenter</button> | <a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+            '<div class="lienCommentaire"><button id="create-user" onclick="toggleForm( '.$sousCommentaire->getId().','.$billet->getId().');">Commenter</button> | <a id="myBtn">Répondre</a> | <a href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
         </div></li>';
+
+            /* AFFICHAGE DES SOUS COMMENTAIRES DE NIVEAU 2 */
 
             foreach ($sousCommentaire->getSousCommentaire() as $sousCommentaire1) {
 
-                //var_dump($sousCommentaire);
                 echo '<li class="media thumbnail sousCommentaire1">', '<strong>', $sousCommentaire1->getAuteur(), '</strong> Le ',
                 $sousCommentaire1->getDateAjout()->format('d/m/Y à H\hi'), '<br/>', substr($sousCommentaire1->getContenu(), 0, 250),
-                '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a> | <a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+                '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a> | <a id="myBtn">Répondre</a> | <a href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
         </div></li>';
+
+                /* AFFICHAGE DES SOUS COMMENTAIRES DE NIVEAU 3 */
 
                 foreach ($sousCommentaire1->getSousCommentaire() as $sousCommentaire2) {
 
-                    //var_dump($sousCommentaire);
+
                     echo '<li class="media thumbnail sousCommentaire2">', '<strong>', $sousCommentaire2->getAuteur(), '</strong> Le ',
                     $sousCommentaire2->getDateAjout()->format('d/m/Y à H\hi'), '<br/>', substr($sousCommentaire2->getContenu(), 0, 250),
-                    '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a> | <a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+                    '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a> | <a id="myBtn">Répondre</a> | <a href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
         </div></li>';
                     ?>
 
@@ -262,7 +279,7 @@ if (isset($_GET['id']))
 }
 
 else {
-    //echo '<h2> Liste des derniers billets</h2>';
+    /* AFFICHAGE DES DERNIERS BILLETS */
 
     foreach ($managerBillet->getList() as $billets) {
         if (strlen($billets->getContenu()) <= 200) {
@@ -313,6 +330,7 @@ else {
        function toggleForm($id,$parentId) {
             // on réccupère l'élément form.
             alert($parentId);
+            window.open("#" ,"form");
 
 
         }

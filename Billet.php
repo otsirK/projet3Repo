@@ -1,6 +1,6 @@
 <?php
 
-class Billets
+class Billet
 {
     private $id,
         $titre,

@@ -1,12 +1,7 @@
 <?php
 
 require 'autoload.php';
-/*
-$db = DBFactory::getMysqlConnexionWithPDO();
-$manager = new BilletsManager($db);
-$manager2 = new CommentairesManager($db);
-*/
-require 'Billets.php';
+//require 'Billet.php';
 //require 'BilletsManager.php';
 require 'controller.php';
 require 'vueAdmin.php';
@@ -15,4 +10,3 @@ require 'vueAdminCommentaires.php';
 
 $controller = new Controller();
 $controller->execute();
-//$controller->executeCommentaires();

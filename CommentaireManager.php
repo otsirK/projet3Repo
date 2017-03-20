@@ -1,5 +1,5 @@
 <?php
-class CommentairesManager
+class CommentaireManager
 {
 	private $db;
 
@@ -8,12 +8,12 @@ class CommentairesManager
         $this->db = $db;
     }
 
-    public function add(Commentaires $commentaires)
+    public function add(Commentaire $commentaire)
     {
         $requete = $this->db->prepare('INSERT INTO commentaires(parentId, auteur, contenu, dateAjout) VALUES (:parentId, :auteur, :contenu, NOW())');
-        $requete->bindValue(':parentId', $commentaires->getParentId());
-        $requete->bindValue(':auteur', $commentaires->getAuteur());
-        $requete->bindValue(':contenu', $commentaires->getContenu());
+        $requete->bindValue(':parentId', $commentaire->getParentId());
+        $requete->bindValue(':auteur', $commentaire->getAuteur());
+        $requete->bindValue(':contenu', $commentaire->getContenu());
         //$requete->bindValue(':dateAjout', $commentaires->getDateAjout());
 
         $requete->execute();
@@ -47,14 +47,14 @@ class CommentairesManager
         }
 
         $requete = $this->db->query($sql);
-        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaires');
+        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaire');
 
         $listeCommentaires = $requete->fetchAll();
 
 
-        foreach ($listeCommentaires as $commentaires)
+        foreach ($listeCommentaires as $commentaire)
         {
-            $commentaires->setDateAjout(new DateTime($commentaires->getDateAjout()));
+            $commentaire->setDateAjout(new DateTime($commentaire->getDateAjout()));
             //$commentaires->setDateModif(new DateTime($billets->dateModif()));
         }
 
@@ -69,14 +69,14 @@ class CommentairesManager
         $requete->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $requete->execute();
 
-        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaires');
+        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaire');
 
-        $commentaires = $requete->fetch();
+        $commentaire = $requete->fetch();
 
-        $commentaires->setDateAjout(new DateTime($commentaires->getDateAjout()));
+        $commentaire->setDateAjout(new DateTime($commentaire->getDateAjout()));
         //$commentaires->setDateModif(new DateTime($news->dateModif()));
 
-        return $commentaires;
+        return $commentaire;
     }
 
     public function getCommentsByParentId ($parentId ) //, $isBillet)
@@ -85,15 +85,15 @@ class CommentairesManager
             $requete->bindValue(':parentId', (int) $parentId, PDO::PARAM_INT);
             $requete->execute();
 
-            $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaires');
+            $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaire');
 
             $listeCommentairesId = $requete->fetchAll();
 
 
-            foreach ($listeCommentairesId as $commentaires)
+            foreach ($listeCommentairesId as $commentaire)
             {
-                $commentaires->setDateAjout(new DateTime($commentaires->getDateAjout()));
-                $this->getSubComments($commentaires);
+                $commentaire->setDateAjout(new DateTime($commentaire->getDateAjout()));
+                $this->getSubComments($commentaire);
                 //$commentaires->setDateModif(new DateTime($billets->dateModif()));
                 //get souscommentaire
             }
@@ -102,22 +102,22 @@ class CommentairesManager
             return $listeCommentairesId;
         }
 
-    public function getSubComments($commentaires) {
+    public function getSubComments($commentaire) {
 
 
         $requete = $this->db->prepare('SELECT id, auteur, contenu, dateAjout FROM commentaires WHERE parentId = :parentId AND depth > 0');
-        $requete->bindValue(':parentId', (int) $commentaires->getId(), PDO::PARAM_INT);
+        $requete->bindValue(':parentId', (int) $commentaire->getId(), PDO::PARAM_INT);
         //$requete->bindValue(':depth', (int) $commentaires->getDepth(), PDO::PARAM_INT);
         $requete->execute();
 
-        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaires');
+        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaire');
         $listeSousCommentaires = $requete->fetchAll();
 
         foreach ($listeSousCommentaires as $sousCommentaire) {
             $sousCommentaire->setDateAjout(new DateTime($sousCommentaire->getDateAjout()));
             $this->getSubComments($sousCommentaire);
         }
-        $commentaires->setSousCommentaire($listeSousCommentaires);
+        $commentaire->setSousCommentaire($listeSousCommentaires);
         $requete->closeCursor();
     }
 
@@ -143,7 +143,7 @@ class CommentairesManager
         $requete->bindValue(':parentId', (int) $parentId, PDO::PARAM_INT);
         $requete->execute();
 
-        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaires');
+        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaire');
 
         $nbCommentaires= $requete->fetchColumn();
 
@@ -152,11 +152,11 @@ class CommentairesManager
         return $nbCommentaires;
     }
 
-    public function save(Commentaires $commentaires)
+    public function save(Commentaire $commentaire)
     {
-        if ($commentaires->isValid())
+        if ($commentaire->isValid())
         {
-            $commentaires->isNew() ? $this->add($commentaires) : $this->update($commentaires);
+            $commentaire->isNew() ? $this->add($commentaire) : $this->update($commentaire);
         }
         else
         {
@@ -165,13 +165,13 @@ class CommentairesManager
     }
 
 
-    public function update(Commentaires $commentaires)
+    public function update(Commentaire $commentaire)
     {
         $requete = $this->db->prepare('UPDATE commentaires SET auteur = :auteur, contenu = :contenu /*dateModif = NOW()*/ WHERE id = :id');
 
-        $requete->bindValue(':auteur', $commentaires->getAuteur());
-        $requete->bindValue(':contenu', $commentaires->getContenu());
-        $requete->bindValue(':id', $commentaires->getId(), PDO::PARAM_INT);
+        $requete->bindValue(':auteur', $commentaire->getAuteur());
+        $requete->bindValue(':contenu', $commentaire->getContenu());
+        $requete->bindValue(':id', $commentaire->getId(), PDO::PARAM_INT);
 
         $requete->execute();
     }
@@ -187,7 +187,7 @@ class CommentairesManager
         }
 
         $requete = $this->db->query($sql);
-        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaires');
+        $requete->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Commentaire');
 
         $listeSignale = $requete->fetchAll();
 
