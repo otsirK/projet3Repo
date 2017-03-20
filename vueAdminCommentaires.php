@@ -48,7 +48,7 @@ class ViewAdminCommentaires
                 echo '<div class ="alert-danger">', $message, '</div>';
             }
 
-        if (isset($_GET['modifier'])) {
+        if (isset($_GET['modifierCom'])) {
             ?>
 
             <form action="http://127.0.0.1/projet3Repo/admin.php?num=3" method="post">
@@ -83,7 +83,7 @@ class ViewAdminCommentaires
                 foreach($this->listeSignale as $commentaires)
                 {
                     echo '<tr><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
-                    $commentaires->getDateAjout(),'</td><td><a href="?num=3&modifier=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&valider=',$commentaires->getId(),'">Valider</a></td></tr>', "\n";
+                    $commentaires->getDateAjout(),'</td><td><a href="?num=3&modifierCom=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&valider=',$commentaires->getId(),'">Valider</a></td></tr>', "\n";
                 }
                 ?></table>
 
@@ -94,7 +94,7 @@ class ViewAdminCommentaires
                 <?php
                 foreach ($this->listeCommentaires as $commentaires) {
                     echo '<tr><td>', $commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250),'</td><td>',
-                    $commentaires->getDateAjout()->format('d/m/Y à H\hi'), '</td><td><a href="?num=3&modifier=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
+                    $commentaires->getDateAjout()->format('d/m/Y à H\hi'), '</td><td><a href="?num=3&modifierCom=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
                 }
                 ?>
             </table>

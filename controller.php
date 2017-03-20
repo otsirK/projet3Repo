@@ -31,9 +31,9 @@ class Controller {
         $message = null;
         $billets = null;
         $commentaires = null;
-        if (isset($_GET['modifier']))
+        if (isset($_GET['modifierCom']))
         {
-            $commentaires = $managerCommentaire->getUnique((int) $_GET['modifier']);
+            $commentaires = $managerCommentaire->getUnique((int) $_GET['modifierCom']);
         }
 
         if (isset($_GET['supprimerCom']))

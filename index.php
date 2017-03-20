@@ -23,7 +23,7 @@ if (isset($_POST['auteur']))
     if ($commentaires->isValid())
     {
         $managerCommentaire->save($commentaires);
-        $message = $commentaires->isNew() ? 'Le commentaire a bien été ajouté !' : 'La news a bien été modifiée !';
+        $message = $commentaires->isNew() ? 'Le commentaire a bien été ajouté !' : 'Le commentaire a bien été modifiée !';
     }
     else
     {
@@ -45,8 +45,77 @@ if (isset($_GET['signaler']))
         <meta charset="utf-8" />
         <link rel="stylesheet" href="style.css">
         <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            $( function() {
+                var dialog, form,
+
+                    auteur = $( "#auteur" ),
+                    contenu = $( "#contenu" ),
+                    allFields = $( [] ).add( name ).add( contenu ),
+                    tips = $( ".validateTips" );
+
+                function updateTips( t ) {
+                    tips
+                        .text( t )
+                        .addClass( "ui-state-highlight" );
+                    setTimeout(function() {
+                        tips.removeClass( "ui-state-highlight", 1500 );
+                    }, 500 );
+                }
+
+                function checkLength( o, n, min, max ) {
+                    if ( o.val().length > max || o.val().length < min ) {
+                        o.addClass( "ui-state-error" );
+                        updateTips( "Le " + n + " doit contenir entre " +
+                            min + " et " + max + " caractères." );
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+
+                function addCom() {
+                    var valid = true;
+                    allFields.removeClass( "ui-state-error" );
+
+                    valid = valid && checkLength( auteur, "pseudo", 3, 16 );
+                    valid = valid && checkLength( contenu, "commentaire", 6, 250 );
+
+                    valid = valid && checkRegexp( auteur, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
+                    valid = valid && checkRegexp( contenu, /^[a-z]([0-9a-z_\s])+$/i , "eg. ui@jquery.com" );
+
+                    if ( valid ) {
+
+                        dialog.dialog( "close" );
+                    }
+                    return valid;
+                }
+
+                dialog = $( "#dialog-form" ).dialog({
+                    autoOpen: false,
+                    height: 400,
+                    width: 350,
+                    modal: true,
+
+                });
+
+                form = dialog.find( "form" ).on( "submit", function( event ) {
+                    event.preventDefault();
+                    addCom();
+                });
+
+                $( "#btnReponse" ).button().on( "click", function() {
+                    dialog.dialog( "open" );
+                });
+
+
+            } );
+        </script>
     </head>
 
     <body>
@@ -76,7 +145,6 @@ if (isset($_GET['id']))
 
     $billets = $managerBillet->getUnique((int)$_GET['id']);
     $parentId = $billets->getId();
-    $form = new Form($_POST);
 
     echo '<h2>', $billets->getTitre(), '</h2>', "\n",
          '<p>', nl2br($billets->getContenu()), '</p>', "\n",
@@ -103,19 +171,6 @@ if (isset($_GET['id']))
         <input type="hidden" name="parentId" value="<?= $billets->getId() ?>" />
         <input type="submit" class="btn btn-default" value="Ajouter" /></form>
 
-       <orm action="#" method="post">
-
-        <?php
-        echo $form->input('Pseudo');
-        echo $form->inputContenu('Commentaire');
-        echo $form->submit();
-
-        if (isset($erreurs) && in_array(Commentaires::AUTEUR_INVALIDE, $erreurs)) {
-        $message = 'Le titre est invalide.<br />';
-            var_dump($message);}
-
-        ?>
-    </orm>
     <br/>
 
     <div class="media-list col-lg-7">
@@ -123,7 +178,7 @@ if (isset($_GET['id']))
     <?php foreach ($managerCommentaire->getCommentsByParentId($parentId) as $commentaires) {
         echo '<li class="commentaire media thumbnail "><img src="Web/images/avatar92.png" alt="Avatar">','<strong>', $commentaires->getAuteur(), '</strong> Le ',
         $commentaires->getDateAjout()->format('d/m/Y à H\hi'),'<br/>',substr ($commentaires->getContenu(), 0, 250),
-        '<div class="lienCommentaire"><a id="myBtn" href="?id=',$commentaires->getId(),'" >Répondre</a> | <a href="?id=',$billets->getId(),'&signaler=',$commentaires->getId(),'">Signaler</a>
+        '<div class="lienCommentaire"><a id="btnReponse" onclick=" reponseForm( '.$commentaires->getId().');" >Répondre</a> | <button onclick=" toggleForm( '.$commentaires->getId().');">Commenter</button> | <a href="?id=',$billets->getId(),'&signaler=',$commentaires->getId(),'">Signaler</a>
         </div></li>';?>
 
 
@@ -134,7 +189,7 @@ if (isset($_GET['id']))
             //var_dump($sousCommentaire);
             echo '<li class="media thumbnail sousCommentaire">', '<strong>', $sousCommentaire->getAuteur(), '</strong> Le ',
             $sousCommentaire->getDateAjout()->format('d/m/Y à H\hi'), '<br/>', substr($sousCommentaire->getContenu(), 0, 250),
-            '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a> | <a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+            '<div class="lienCommentaire"><button id="create-user" onclick="toggleForm( '.$sousCommentaire->getId().','.$billets->getId().');">Commenter</button> | <a id="myBtn">Répondre</a> | <a href="?id=', $billets->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
         </div></li>';
 
             foreach ($sousCommentaire->getSousCommentaire() as $sousCommentaire1) {
@@ -174,7 +229,7 @@ if (isset($_GET['id']))
                             <span class="close">&times;</span>
                             <p>Ajouter un commentaire</p>
 
-                            <form action="http://127.0.0.1/projet3Repo/index.php?id=<?php $billets->getId() ?>" method="post">
+                            <form action="index.php?id=',<?php $id ?>,' " method="post">
                             <?php
 
                             if (isset($message)) {
@@ -229,22 +284,55 @@ else {
             </ul>
         </div>
 
-    <script>
+                <div id="dialog-form" title="Ajouter un commentaire">
+                    <p class="validateTips">Tous les champs sont requis.</p>
 
-        function toggleForm(){
+                    <form action="#" method="post">
+                        <fieldset>
+                            <label for="auteur">Pseudo</label>
+                            <input type="text" name="auteur" id="auteur" value="" class="text ui-widget-content ui-corner-all">
+                            <label for="contenu">Commentaire</label>
+                            <textarea rows="6" cols="38" name="contenu" id="contenu" value="" class="text ui-widget-content ui-corner-all"></textarea>
+
+                            <input type="hidden" name="parentId" value=""/>
+                            <input type="submit" class="btn btn-default" value="Ajouter"/>
+
+                    </fieldset>
+                    </form>
+                </div>
+
+    <script type="text/javascript">
+
+        var modal = document.getElementById('myModal');
+        var btn = document.getElementById("myBtn");
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+       function toggleForm($id,$parentId) {
             // on réccupère l'élément form.
-            var formulaire = document.getElementById('formulaire');
+            alert($parentId);
 
-            // Condition pour afficher/cacher le formulaire en fonction de son état
-            if(formulaire.style.display == 'block'){
-                formulaire.style.display = 'none';
-            }else{
-                formulaire.style.display = 'block';
-            }
+
         }
 
 
 
+        /*var formulaire = document.getElementById('formulaire');*/
+
+
+
+            // Condition pour afficher/cacher le formulaire en fonction de son état
+           /* if(formulaire.style.display == 'block'){
+                formulaire.style.display = 'none';
+            }else{
+                formulaire.style.display = 'block';*/
+            /*}
+
+
+
+/*
         // Get the modal
         var modal = document.getElementById('myModal');
 
@@ -252,7 +340,7 @@ else {
         var btn = document.getElementById("myBtn");
 
         // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
+        //var span = document.getElementsByClassName("close")[0];
 
         // When the user clicks the button, open the modal
         btn.onclick = function() {
@@ -260,9 +348,9 @@ else {
         }
 
         // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
+        /*span.onclick = function() {
             modal.style.display = "none";
-        }
+        }*/
 
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
