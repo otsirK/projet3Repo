@@ -2,10 +2,6 @@
 
 class ViewAdmin
 {
-    private //$liste8Billets,
-            //$listeSignale,
-            $message;
-
 
     public function __construct($listeDerniersBillets,$listeSignale,$listeDerniersCom)
     {
@@ -79,6 +75,7 @@ class ViewAdmin
 ?>
 </table>
 
+        <!-- TABLEAU DES 5 DERNIERS COMMENTAIRE -->
 
         <h2>Les 5 derniers commentaires</h2>
 

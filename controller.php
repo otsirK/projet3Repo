@@ -13,12 +13,14 @@ class Controller {
         $commentaire = null;
 
         /* MODIFIER UN COMMENTAIRE */
+
         if (isset($_GET['modifierCom']))
         {
             $commentaire = $managerCommentaire->getUnique((int) $_GET['modifierCom']);
         }
 
         /* SUPPRIMER UN COMMENTAIRE */
+
         if (isset($_GET['supprimerCom']))
         {
 
@@ -27,6 +29,7 @@ class Controller {
         }
 
         /* AJOUTER UN COMMENTAIRE */
+
         if (isset($_POST['auteur'])) {
             $commentaire = new Commentaire(
                 [
@@ -49,19 +52,22 @@ class Controller {
         }
 
         /* VALIDER UN COMMENTAIRE */
+
         if (isset($_GET['valider']))
         {
             $managerCommentaire->valide((int) $_GET['valider']);
             $message = 'Le commentaire a bien été validé !';
         }
 
-        /* MOIDIFIER UN BILLET */
+        /* MODIFIER UN BILLET */
+
         if (isset($_GET['modifier']))
         {
             $billet = $managerBillet->getUnique((int) $_GET['modifier']); //billet
         }
 
-        /* SUPPRIMR UN BILLET */
+        /* SUPPRIMER UN BILLET */
+
         if (isset($_GET['supprimer']))
         {
             $managerBillet->delete((int) $_GET['supprimer']);
@@ -69,6 +75,7 @@ class Controller {
         }
 
         /* AJOUTER UN BILLET */
+
         if (isset($_POST['titre']))
         {
             $billet = new Billet(
@@ -96,6 +103,7 @@ class Controller {
         }
 
         /* GESTION DES ERREURS */
+
         if (isset($erreurs) && in_array(Billet::TITRE_INVALIDE, $erreurs)) {
             $message = 'Le titre est invalide.<br />';
         }
@@ -105,12 +113,14 @@ class Controller {
         }
 
         /* DEFINITION DES VARIABLES */
+
         $listeBillets = $managerBillet->getList();
         $listeDerniersBillets = $managerBillet->getList(0, 5);
         $listeSignale = $managerCommentaire->getListeSignale();
         $listeDerniersCom = $managerCommentaire->getList(0, 5);
 
         /* GESTION DES VUES */
+
         if(isset($_GET['num'])) {
             $numOnglet = $_GET['num'];
         }
