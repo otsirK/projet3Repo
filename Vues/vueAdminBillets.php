@@ -17,7 +17,7 @@ class ViewAdminBillets
         <head>
             <title>Administration</title>
             <meta charset="utf-8"/>
-            <link rel="stylesheet" href="style.css">
+            <link rel="stylesheet" href="Web/css/style.css">
             <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
             <script src="lib/tinymce/tinymce.min.js"></script>
             <script>

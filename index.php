@@ -47,7 +47,7 @@ if (isset($_GET['signaler']))
     <head>
         <title>Accueil du site</title>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="Web/css/style.css">
         <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -226,18 +226,6 @@ if (isset($_GET['id']))
         </div></li>';
                     ?>
 
-                    <form id="formulaire" method="POST" action="">
-
-
-                        <label>Pseudo :</label><br/> <input type="text" name="auteur"
-                                                            value="<?php if (isset($commentaires)) echo $commentaires->getAuteur(); ?>"/><br/>
-
-                        <?php if (isset($erreurs) && in_array(Commentaires::CONTENU_INVALIDE, $erreurs)) echo '<br /><div class ="alert-danger">Le contenu est invalide.</div>'; ?>
-                        <label>Commentaire :</label><br/><textarea rows="8" cols="60"
-                                                                   name="contenu"><?php if (isset($commentaires)) echo $commentaires->getContenu(); ?></textarea><br/>
-
-                        <input type="hidden" name="parentId" value=""/>
-                        <input type="submit" class="btn btn-default" value="Ajouter"/></form>
 
                     <div id="myModal" class="modal">
 
@@ -329,26 +317,11 @@ else {
 
        function toggleForm($id,$parentId) {
             // on réccupère l'élément form.
-            alert($parentId);
+            alert($id);
             window.open("#" ,"form");
 
 
         }
-
-
-
-        /*var formulaire = document.getElementById('formulaire');*/
-
-
-
-            // Condition pour afficher/cacher le formulaire en fonction de son état
-           /* if(formulaire.style.display == 'block'){
-                formulaire.style.display = 'none';
-            }else{
-                formulaire.style.display = 'block';*/
-            /*}
-
-
 
 /*
         // Get the modal

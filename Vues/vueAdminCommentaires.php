@@ -20,7 +20,7 @@ class ViewAdminCommentaires
         <head>
             <title>Administration</title>
             <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-            <link rel="stylesheet" href="style.css">
+            <link rel="stylesheet" href="Web/css/style.css">
             <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
         </head>
 

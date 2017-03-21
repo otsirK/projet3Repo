@@ -3,14 +3,14 @@
 }
 
 .ndex {
-    background-image: url("Web/images/papier2.jpg");
+    background-image: url("/Web/images/papier2.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
 
 }
 .imgTop {
     background-color: #2aabd2;
-    background-image: url("Web/images/alaska3.jpg");
+    background-image: url("/Web/images/alaska3.jpg");
     background-repeat: no-repeat;
     height: 250px;
     margin-top: -20px;
