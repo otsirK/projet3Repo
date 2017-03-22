@@ -10,7 +10,7 @@
 }
 .imgTop {
     background-color: #2aabd2;
-    background-image: url("/Web/images/alaska3.jpg");
+    background-image: url("http://127.0.0.1/projet3Repo/Web/images/alaska3.jpg");
     background-repeat: no-repeat;
     height: 250px;
     margin-top: -20px;
@@ -70,7 +70,7 @@
     padding: 4px;
     text-align: center;
 }
-img {
+img{
     float: left;
     width: 55px;
     margin-right: 15px;
@@ -147,8 +147,12 @@ background-color: #2aabd2;
 }
 
 .lienCommentaire {
-    text-align: left;
+    text-align: right;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-top: 10px;
 }
+
 
 .formAdminBillet input{
     width: 100%;

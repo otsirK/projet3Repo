@@ -12,10 +12,11 @@ class CommentaireManager
 
     public function add(Commentaire $commentaire)
     {
-        $requete = $this->db->prepare('INSERT INTO commentaires(parentId, auteur, contenu, dateAjout) VALUES (:parentId, :auteur, :contenu, NOW())');
+        $requete = $this->db->prepare('INSERT INTO commentaires(parentId, auteur, contenu, dateAjout, depth) VALUES (:parentId, :auteur, :contenu, NOW(), :depth)');
         $requete->bindValue(':parentId', $commentaire->getParentId());
         $requete->bindValue(':auteur', $commentaire->getAuteur());
         $requete->bindValue(':contenu', $commentaire->getContenu());
+        $requete->bindValue(':depth', $commentaire->getDepth());
 
         $requete->execute();
     }

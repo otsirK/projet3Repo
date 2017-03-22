@@ -13,7 +13,8 @@ if (isset($_POST['auteur']))
         [
             'auteur' => $_POST['auteur'],
             'contenu' => $_POST['contenu'],
-            'parentId' => $_POST['parentId']
+            'parentId' => $_POST['parentId'],
+            'depth' => $_POST['depth']
         ]
     );
 
@@ -60,6 +61,8 @@ if (isset($_GET['signaler']))
 
                     auteur = $( "#auteur" ),
                     contenu = $( "#contenu" ),
+                    parentId = $("#parentId"),
+                    depth = $(".depthCmt"),
                     allFields = $( [] ).add( name ).add( contenu ),
                     tips = $( ".validateTips" );
 
@@ -108,18 +111,18 @@ if (isset($_GET['signaler']))
 
                 });
 
-                form = dialog.find( "form" ).on( "submit", function( event ) {
+              /*  form = dialog.find( "form" ).on( "submit", function( event ) {
                     event.preventDefault();
                     addCom();
-                });
+                });*/
 
-                function ouvrir () {
-                    alert('test');
-                    /*dialog.dialog( "open" );*/
-                }
 
-                $( "#btnReponse" ).button().on( "click", function() {
+
+                $( ".btnReponse" ).button().on( "click", function() {
+                    parentId.attr("value", $(this).attr("parentId"));
+                    depth.attr("value", $(this).attr("depth"));
                     dialog.dialog( "open" );
+
                 });
 
 
@@ -181,6 +184,7 @@ if (isset($_GET['id']))
         <label>Commentaire :</label><br /><textarea rows="4" cols="60" name="contenu"><?php if (isset($commentaires)) echo $commentaires->getContenu(); ?></textarea><br />
 
         <input type="hidden" name="parentId" value="<?= $billet->getId() ?>" />
+        <input type="hidden" id ="depth" name="depth" value="0"/>
         <input type="submit" class="btn btn-default" value="Ajouter" /></form>
 
     <br/>
@@ -192,7 +196,7 @@ if (isset($_GET['id']))
     <?php foreach ($managerCommentaire->getCommentsByParentId($parentId) as $commentaires) {
         echo '<li class="commentaire media thumbnail "><img src="Web/images/avatar92.png" alt="Avatar">','<strong>', $commentaires->getAuteur(), '</strong> Le ',
         $commentaires->getDateAjout()->format('d/m/Y à H\hi'),'<br/>',substr ($commentaires->getContenu(), 0, 250),
-        '<div class="lienCommentaire"><a href="#btnReponse" onclick="ouvrir()" >Répondre</a> | <button onclick=" toggleForm( '.$commentaires->getId().');">Commenter</button> | <a href="?id=',$billet->getId(),'&signaler=',$commentaires->getId(),'">Signaler</a>
+        '<div class="lienCommentaire"><button depth = "1" class="btnReponse" parentId="',$commentaires->getId(),'" >Répondre</button> | <a class="ui-button ui-corner-all ui-widget" href="?id=',$billet->getId(),'&signaler=',$commentaires->getId(),'">Signaler</a>
         </div></li>';?>
 
 
@@ -203,7 +207,7 @@ if (isset($_GET['id']))
 
             echo '<li class="media thumbnail sousCommentaire">', '<strong>', $sousCommentaire->getAuteur(), '</strong> Le ',
             $sousCommentaire->getDateAjout()->format('d/m/Y à H\hi'), '<br/>', substr($sousCommentaire->getContenu(), 0, 250),
-            '<div class="lienCommentaire"><button id="create-user" onclick="toggleForm( '.$sousCommentaire->getId().','.$billet->getId().');">Commenter</button> | <a id="myBtn">Répondre</a> | <a href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+            '<div class="lienCommentaire"><button depth = "2" class="btnReponse" parentId="',$sousCommentaire->getId(),'" >Répondre</button> | <a class="ui-button ui-corner-all ui-widget" href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
         </div></li>';
 
             /* AFFICHAGE DES SOUS COMMENTAIRES DE NIVEAU 2 */
@@ -212,7 +216,7 @@ if (isset($_GET['id']))
 
                 echo '<li class="media thumbnail sousCommentaire1">', '<strong>', $sousCommentaire1->getAuteur(), '</strong> Le ',
                 $sousCommentaire1->getDateAjout()->format('d/m/Y à H\hi'), '<br/>', substr($sousCommentaire1->getContenu(), 0, 250),
-                '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a> | <a id="myBtn">Répondre</a> | <a href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+                '<div class="lienCommentaire"><button depth = "3" class="btnReponse" parentId="',$sousCommentaire1->getId(),'" >Répondre</button> | <a class="ui-button ui-corner-all ui-widget" href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
         </div></li>';
 
                 /* AFFICHAGE DES SOUS COMMENTAIRES DE NIVEAU 3 */
@@ -222,7 +226,7 @@ if (isset($_GET['id']))
 
                     echo '<li class="media thumbnail sousCommentaire2">', '<strong>', $sousCommentaire2->getAuteur(), '</strong> Le ',
                     $sousCommentaire2->getDateAjout()->format('d/m/Y à H\hi'), '<br/>', substr($sousCommentaire2->getContenu(), 0, 250),
-                    '<div class="lienCommentaire"><a href="#" onclick="toggleForm()">Commenter</a> | <a id="myBtn">Répondre</a> | <a href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+                    '<div class="lienCommentaire"> <a class="ui-button ui-corner-all ui-widget" href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
         </div></li>';
                     ?>
 
@@ -299,7 +303,8 @@ else {
                             <label for="contenu">Commentaire</label>
                             <textarea rows="6" cols="38" name="contenu" id="contenu" value="" class="text ui-widget-content ui-corner-all"></textarea>
 
-                            <input type="hidden" name="parentId" value=""/>
+                            <input type="hidden" id ="parentId" name="parentId" value=""/>
+                            <input type="text" class="depthCmt" id ="depth" name="depth" value=""/>
                             <input type="submit" class="btn btn-default" value="Ajouter"/>
 
                     </fieldset>
