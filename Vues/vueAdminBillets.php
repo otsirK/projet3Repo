@@ -17,9 +17,9 @@ class ViewAdminBillets
         <head>
             <title>Administration</title>
             <meta charset="utf-8"/>
-            <link rel="stylesheet" href="Web/css/style.css">
-            <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-            <script src="lib/tinymce/tinymce.min.js"></script>
+            <link rel="stylesheet" href="../../Web/css/style.css">
+            <link href="../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+            <script src="../../lib/tinymce/tinymce.min.js"></script>
             <script>
                 tinymce.init({
                     selector: '#mytextarea',
@@ -38,9 +38,9 @@ class ViewAdminBillets
         <div class="navbar navbar-default">
             <ul class="nav navbar-nav">
                 <li><a href="admin.php">Accueil administration</a>
-                <li class="active"><a href="http://127.0.0.1/projet3Repo/admin.php?num=2">Gestion des billets</a></li>
-                <li><a href="http://127.0.0.1/projet3Repo/admin.php?num=3">Gestion des commentaires</a></li>
-                <li><a href="index.php">Retour au blog</a></li>
+                <li class="active"><a href="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=2">Gestion des billets</a></li>
+                <li><a href="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=3">Gestion des commentaires</a></li>
+                <li><a href="../index.php">Retour au blog</a></li>
 
             </ul>
         </div>
@@ -61,7 +61,7 @@ class ViewAdminBillets
             <!-- FORMULAIRE POUR AJOUTER UN BILLET -->
 
             <div class="formAdminBillet">
-            <form action="http://127.0.0.1/projet3Repo/admin.php?num=2" method="post">
+            <form action="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=2" method="post">
 
 
                     <label>Titre :</label> <br/><input type="text" class="champsTitre" name="titre"

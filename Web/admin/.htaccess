@@ -1,10 +1,19 @@
+ErrorDocument 401 /401.php
+
 AuthName "Page d'administration protégée"
 AuthType Basic
-AuthUserFile "C:\wamp\www\Projet 3\admin\.htpasswd"
+AuthUserFile "C:\wamp\www\Projet3Repo\Web\admin\.htpasswd"
 Require valid-user
 
-<Files "index.php">
-    Allow From All
+<Files "401.php">
     Satisfy Any
+    Allow From All
 </Files>
 
+
+
+#<Files ~ "^.*\.([Hh][Tt][AaPp])">
+#order allow,deny
+#deny from all
+#satisfy all
+#</Files>

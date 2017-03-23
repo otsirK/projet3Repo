@@ -19,8 +19,8 @@ class ViewAdmin
     <head>
         <title>Administration</title>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="Web/css/style.css">
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../Web/css/style.css">
+        <link href="../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     </head>
 
     <body>
@@ -32,9 +32,9 @@ class ViewAdmin
     <div class="navbar navbar-default">
         <ul class="nav navbar-nav">
             <li class="active"> <a href="admin.php">Accueil administration</a>
-            <li> <a href="http://127.0.0.1/projet3Repo/admin.php?num=2">Gestion des billets</a> </li>
-            <li> <a href="http://127.0.0.1/projet3Repo/admin.php?num=3">Gestion des commentaires</a> </li>
-            <li> <a href="index.php">Retour au blog</a> </li>
+            <li> <a href="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=2">Gestion des billets</a> </li>
+            <li> <a href="http://127.0.0.1/projet3Repo/Web/admin.php?num=3">Gestion des commentaires</a> </li>
+            <li> <a href="../index.php">Retour au blog</a> </li>
 
         </ul>
     </div>
@@ -55,8 +55,8 @@ class ViewAdmin
             foreach($this->listeSignale as $commentaires)
             {
                 echo '<tr ><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
-                $commentaires->getDateAjout(),'</td><td><a href="?num=3&modifier=', $commentaires->getId(),
-                '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=\', $commentaires->getId(), \'">Supprimer</a></td></tr>', "\n";
+                $commentaires->getDateAjout(),'</td><td><a href="?num=3&modifierCom=', $commentaires->getId(),
+                '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=3&supprimerCom=\', $commentaires->getId(), \'">Supprimer</a></td></tr>', "\n";
             }
             ?>
         </table>
@@ -86,8 +86,8 @@ class ViewAdmin
             foreach($this->listeDerniersCom as $commentaires)
             {
                 echo '<tr ><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
-                ($commentaires->getDateAjout()->format('d/m/Y à H\hi')),'</td><td><a href="?num=3&modifier=', $commentaires->getId(),
-                '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
+                ($commentaires->getDateAjout()->format('d/m/Y à H\hi')),'</td><td><a href="?num=3&modifierCom=', $commentaires->getId(),
+                '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
             }
             ?>
         </table>

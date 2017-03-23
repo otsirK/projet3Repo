@@ -20,8 +20,8 @@ class ViewAdminCommentaires
         <head>
             <title>Administration</title>
             <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-            <link rel="stylesheet" href="Web/css/style.css">
-            <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="../../Web/css/style.css">
+            <link href="../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         </head>
 
         <body>
@@ -33,9 +33,9 @@ class ViewAdminCommentaires
         <div class="navbar navbar-default">
             <ul class="nav navbar-nav">
                 <li> <a href="admin.php">Accueil administration</a>
-                <li> <a href="http://127.0.0.1/projet3Repo/admin.php?num=2">Gestion des billets</a> </li>
-                <li class="active"> <a href="http://127.0.0.1/projet3Repo/admin.php?num=3">Gestion des commentaires</a> </li>
-                <li> <a href="index.php">Retour au blog</a> </li>
+                <li> <a href="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=2">Gestion des billets</a> </li>
+                <li class="active"> <a href="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=3">Gestion des commentaires</a> </li>
+                <li> <a href="../index.php">Retour au blog</a> </li>
 
             </ul>
         </div>
@@ -52,8 +52,8 @@ class ViewAdminCommentaires
             /* AFFICHAGE D UN FORMULAIRE SI 'modifierCom' EST PRESENT DANS L URL */
         if (isset($_GET['modifierCom'])) {
             ?>
-
-            <form action="http://127.0.0.1/projet3Repo/admin.php?num=3" method="post">
+            <div class="formAdminCommentaire">
+            <form action="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=3" method="post">
 
 
                 <label>Titre :</label> <br/><input type="text" class="champsTitre" name="auteur"
@@ -72,7 +72,7 @@ class ViewAdminCommentaires
                     <p><input type="submit" class="btn btn-default" value="Ajouter"/></p>
                     <?php
                 }
-                ?></form>
+                ?></form></div>
         <?php }
         ?>
 
@@ -86,7 +86,7 @@ class ViewAdminCommentaires
                 foreach($this->listeSignale as $commentaires)
                 {
                     echo '<tr><td>',$commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250), '</td><td>',
-                    $commentaires->getDateAjout(),'</td><td><a href="?num=3&modifierCom=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&valider=',$commentaires->getId(),'">Valider</a></td></tr>', "\n";
+                    $commentaires->getDateAjout(),'</td><td><a href="?num=3&modifierCom=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a> | <a href="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=3&valider=',$commentaires->getId(),'">Valider</a></td></tr>', "\n";
                 }
                 ?></table>
 
@@ -98,7 +98,7 @@ class ViewAdminCommentaires
                 /* RECUPERATION DE TOUS LES COMMENTAIRES*/
                 foreach ($this->listeCommentaires as $commentaires) {
                     echo '<tr><td>', $commentaires->getAuteur(), '</td><td>', substr ($commentaires->getContenu(), 0, 250),'</td><td>',
-                    $commentaires->getDateAjout()->format('d/m/Y à H\hi'), '</td><td><a href="?num=3&modifierCom=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
+                    $commentaires->getDateAjout()->format('d/m/Y à H\hi'), '</td><td><a href="?num=3&modifierCom=', $commentaires->getId(), '">Modifier</a> | <a href="http://127.0.0.1/projet3Repo/Web/admin/admin.php?num=3&supprimerCom=', $commentaires->getId(), '">Supprimer</a></td></tr>', "\n";
                 }
                 ?>
             </table>
