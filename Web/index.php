@@ -112,10 +112,12 @@ if (isset($_GET['signaler']))
 
                 });
 
-              /*  form = dialog.find( "form" ).on( "submit", function( event ) {
-                    event.preventDefault();
-                    addCom();
-                });*/
+                form = dialog.find( "form" ).on( "submit", function( event ) {
+                    if (!addCom())
+                    {
+                        event.preventDefault(); /* Annule l'action déclenché par un submit */
+                    }
+                });
 
 
 

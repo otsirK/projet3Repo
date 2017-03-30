@@ -1,4 +1,4 @@
-ErrorDocument 401 /401.php
+#ErrorDocument 401 /401.php
 
 AuthName "Page d'administration protégée"
 AuthType Basic
@@ -10,7 +10,7 @@ Require valid-user
     Allow From All
 </Files>
 
-
+ErrorDocument 401 /401.php
 
 #<Files ~ "^.*\.([Hh][Tt][AaPp])">
 #order allow,deny
