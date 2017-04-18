@@ -11,10 +11,10 @@ if (isset($_POST['auteur']))
 {
     $commentaire = new Commentaire(
         [
-            'auteur' => $_POST['auteur'],
-            'contenu' => $_POST['contenu'],
-            'parentId' => $_POST['parentId'],
-            'depth' => $_POST['depth']
+            'auteur' => htmlspecialchars($_POST['auteur']),
+            'contenu' => htmlspecialchars($_POST['contenu']),
+            'parentId' => htmlspecialchars($_POST['parentId']),
+            'depth' => htmlspecialchars($_POST['depth'])
         ]
     );
 

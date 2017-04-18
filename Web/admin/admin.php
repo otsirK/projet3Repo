@@ -8,5 +8,9 @@ require '../../Vues/vueAdmin.php';
 require '../../Vues/vueAdminBillets.php';
 require '../../Vues/vueAdminCommentaires.php';
 
-$controller = new Controller();
+$db = DBFactory::getMysqlConnexionWithPDO();
+$managerBillet = new BilletManager($db);
+$managerCommentaire = new CommentaireManager($db);
+
+$controller = new Controller($db,$managerBillet,$managerCommentaire);
 $controller->execute();
