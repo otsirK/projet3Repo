@@ -25,7 +25,9 @@ class CommentaireManager
 
     public function delete($id)
     {
-        $this->db->exec('DELETE FROM commentaires WHERE id = '.(int)$id);
+        $requete = $this->db->prepare('DELETE FROM commentaires WHERE id = :id');
+        $requete->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $requete->execute();
     }
 
     /* NOMBRE DE COMMENTAIRE TOTAL */
@@ -52,7 +54,7 @@ class CommentaireManager
 
         if ($debut != -1 || $limite != -1)
         {
-            $sql .= ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut;//ecrase
+            $sql .= ' LIMIT '.(int) $limite.' OFFSET '.(int) $debut;
         }
 
         $requete = $this->db->query($sql);
@@ -202,13 +204,17 @@ class CommentaireManager
 
     public function signale($id)
     {
-        $this->db->exec('UPDATE commentaires SET estSignale = TRUE WHERE id = '.(int)$id);
+        $requete = $this->db->prepare('UPDATE commentaires SET estSignale = TRUE WHERE id = :id');
+        $requete->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $requete->execute();
     }
 
     /* VALIDER UN COMMENTAIRE */
 
     public function valide($id)
     {
-        $this->db->exec('UPDATE commentaires SET estSignale = FALSE WHERE id = '.(int)$id);
+        $requete = $this->db->prepare('UPDATE commentaires SET estSignale = FALSE WHERE id = :id');
+        $requete->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $requete->execute();
     }
 }

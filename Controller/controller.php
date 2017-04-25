@@ -2,12 +2,7 @@
 
 class Controller {
 
-    private $db,
-            $managerBillet,
-            $managerCommentaire;
-
-    public  $message = null ,
-            $commentaire = null,
+    private $commentaire = null,
             $billet = null,
             $erreurs = null;
 
@@ -16,70 +11,6 @@ class Controller {
         $this->db = $db;
         $this->managerBillet = $managerBillet;
         $this->managerCommentaire = $managerCommentaire;
-    }
-
-    public function execute()
-    {
-        /* MODIFIER UN COMMENTAIRE */
-
-        if (isset($_GET['modifierCom']))
-        {
-            $this->modifierCommentaire();
-        }
-
-        /* SUPPRIMER UN COMMENTAIRE */
-
-        if (isset($_GET['supprimerCom']))
-        {
-           $this->message = $this->deleteCommentaire();
-        }
-
-        /* AJOUTER UN COMMENTAIRE */
-
-        if (isset($_POST['auteur']))
-        {
-            $this->ajouterCommentaire();
-        }
-
-        /* VALIDER UN COMMENTAIRE */
-
-        if (isset($_GET['valider']))
-        {
-            $this->message = $this->validerCommentaire();
-        }
-
-        /* MODIFIER UN BILLET */
-
-        if (isset($_GET['modifier']))
-        {
-           $this->modifierBillet();
-        }
-
-        /* SUPPRIMER UN BILLET */
-
-        if (isset($_GET['supprimer']))
-        {
-            $this->message = $this->supprimerBillet();
-        }
-
-        /* AJOUTER UN BILLET */
-
-        if (isset($_POST['titre']))
-        {
-            $this->ajouterBillet();
-        }
-
-        /* GESTION DES ERREURS */
-
-        if (isset($this->erreurs) && in_array(Billet::TITRE_INVALIDE, $this->erreurs)) {
-            $this->message = 'Le titre est invalide.<br />';
-        }
-
-        if (isset($this->erreurs) && in_array(Billet::CONTENU_INVALIDE, $this->erreurs)) {
-            $this->message = 'Le contenu est invalide.<br />';
-        }
-
-        $this->selectionVue();
     }
 
     public function deleteCommentaire() {
@@ -156,19 +87,9 @@ class Controller {
         {
             $this->erreurs = $billet->getErreurs();
         }
-
-
     }
 
-    public function selectionVue() {
-        /* DEFINITION DES VARIABLES */
-        $message = $this->message;
-        $commentaire = $this->commentaire;
-        $billet = $this->billet;
-        $listeBillets = $this->managerBillet->getList();
-        $listeDerniersBillets = $this->managerBillet->getList(0, 5);
-        $listeSignale = $this->managerCommentaire->getListeSignale();
-        $listeDerniersCom = $this->managerCommentaire->getList(0, 5);
+    public function selectionVue($message) {
 
         /* GESTION DES VUES */
 
@@ -181,20 +102,24 @@ class Controller {
 
         switch($numOnglet) {
             case 1:
-
+                $listeDerniersBillets = $this->managerBillet->getList(0, 5);
+                $listeSignale = $this->managerCommentaire->getListeSignale();
+                $listeDerniersCom = $this->managerCommentaire->getList(0, 5);
                 $viewAdmin = new ViewAdmin($listeDerniersBillets, $listeSignale, $listeDerniersCom);
                 $viewAdmin->display($message);
                 break;
 
             case 2:
+                $listeBillets = $this->managerBillet->getList();
                 $viewAdminBillets = new viewAdminBillets($listeBillets);
-                $viewAdminBillets->display($message,$billet);
+                $viewAdminBillets->display($message,$this->billet);
                 break;
 
             case 3:
+                $listeSignale = $this->managerCommentaire->getListeSignale();
                 $listeCommentaires = $this->managerCommentaire->getList();
                 $viewAdminCommentaires = new viewAdminCommentaires($listeCommentaires, $listeSignale);
-                $viewAdminCommentaires->display($message, $commentaire);
+                $viewAdminCommentaires->display($message, $this->commentaire);
                 break;
         }
     }

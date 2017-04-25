@@ -210,7 +210,7 @@ if (isset($_GET['id']))
 
             echo '<li class="media thumbnail sousCommentaire"><img src="images/avatar92.png" alt="Avatar">', '<p><span class="pseudo">', $sousCommentaire->getAuteur(), '</span> - Le ',
             $sousCommentaire->getDateAjout()->format('d/m/Y à H\hi'),'</p>', substr($sousCommentaire->getContenu(), 0, 250),
-            '<div class="lienCommentaire"><button depth = "2" class="btnReponse" parentId="',$sousCommentaire->getId(),'" >Répondre</button> | <a class="ui-button ui-corner-all ui-widget" href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+            '<div class="lienCommentaire"><button depth = "2" class="btnReponse" parentId="',$sousCommentaire->getId(),'" >Répondre</button> | <a class="ui-button ui-corner-all ui-widget" href="?id=', $billet->getId(), '&signaler=', $sousCommentaire->getId(), '">Signaler</a>
         </div></li>';
 
             /* AFFICHAGE DES SOUS COMMENTAIRES DE NIVEAU 2 */
@@ -219,7 +219,7 @@ if (isset($_GET['id']))
 
                 echo '<li class="media thumbnail sousCommentaire1"><img src="images/avatar92.png" alt="Avatar">', '<p><span class="pseudo">', $sousCommentaire1->getAuteur(), '</span> - Le ',
                 $sousCommentaire1->getDateAjout()->format('d/m/Y à H\hi'), '</p>', substr($sousCommentaire1->getContenu(), 0, 250),
-                '<div class="lienCommentaire"><button depth = "3" class="btnReponse" parentId="',$sousCommentaire1->getId(),'" >Répondre</button> | <a class="ui-button ui-corner-all ui-widget" href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+                '<div class="lienCommentaire"><button depth = "3" class="btnReponse" parentId="',$sousCommentaire1->getId(),'" >Répondre</button> | <a class="ui-button ui-corner-all ui-widget" href="?id=', $billet->getId(), '&signaler=', $sousCommentaire1->getId(), '">Signaler</a>
         </div></li>';
 
                 /* AFFICHAGE DES SOUS COMMENTAIRES DE NIVEAU 3 */
@@ -229,7 +229,7 @@ if (isset($_GET['id']))
 
                     echo '<li class="media thumbnail sousCommentaire2"><img src="images/avatar92.png" alt="Avatar">', '<p><span class="pseudo">', $sousCommentaire2->getAuteur(), '</span> - Le ',
                     $sousCommentaire2->getDateAjout()->format('d/m/Y à H\hi'), '</p>', substr($sousCommentaire2->getContenu(), 0, 250),
-                    '<div class="lienCommentaire"> <a class="ui-button ui-corner-all ui-widget" href="?id=', $billet->getId(), '&signaler=', $commentaires->getId(), '">Signaler</a>
+                    '<div class="lienCommentaire"> <a class="ui-button ui-corner-all ui-widget" href="?id=', $billet->getId(), '&signaler=', $sousCommentaire2->getId(), '">Signaler</a>
         </div></li>';
                 }
             }

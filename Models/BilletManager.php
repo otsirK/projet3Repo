@@ -33,7 +33,9 @@ class BilletManager
 
 	public function delete($id)
 	{
-		$this->db->exec('DELETE FROM billets WHERE id = '.(int)$id);
+        $requete = $this->db->prepare('DELETE FROM billets WHERE id = :id');
+        $requete->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $requete->execute();
 	}
 
 	/* Liste de billets par id */
