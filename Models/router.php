@@ -23,7 +23,7 @@
         /* AJOUTER UN COMMENTAIRE */
         if (isset($_POST['auteur']))
         {
-            $controller->ajouterCommentaire();
+            $message = $controller->ajouterCommentaire();
         }
         /* VALIDER UN COMMENTAIRE */
         if (isset($_GET['valider']))
@@ -43,7 +43,7 @@
         /* AJOUTER UN BILLET */
         if (isset($_POST['titre']))
         {
-            $controller->ajouterBillet();
+            $message = $controller->ajouterBillet();
         }
         /* GESTION DES ERREURS */
         if (isset($this->erreurs) && in_array(Billet::TITRE_INVALIDE, $this->erreurs)) {

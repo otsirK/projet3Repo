@@ -10,8 +10,8 @@ class Billet
         $erreurs = [];
 
 
-    const TITRE_INVALIDE = 1;
-    const CONTENU_INVALIDE = 2;
+    const TITRE_INVALIDE = "Le titre est invalide !</br>";
+    const CONTENU_INVALIDE = "Le contenu est invalide !";
 
 
     public function __construct($valeurs = [])

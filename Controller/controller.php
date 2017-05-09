@@ -41,9 +41,9 @@ class Controller {
         if ($commentaire->isValid()) {
             $this->managerCommentaire->save($commentaire);
 
-            $this->message = $commentaire->isNew() ? 'Le commentaire a bien été ajouté !' : 'Le commentaire a bien été modifié !';
+            return $commentaire->isNew() ? 'Le commentaire a bien été ajouté !' : 'Le commentaire a bien été modifié !';
         } else {
-            $this->erreurs = $commentaire->getErreurs();
+            return implode($commentaire->getErreurs());
         }}
 
         public function validerCommentaire() {
@@ -81,11 +81,11 @@ class Controller {
         {
             $this->managerBillet->save($billet);
 
-            $this->message = $billet->isNew() ? 'Le billet a bien été ajouté !' : 'Le billet a bien été modifié !';
+            return $billet->isNew() ? 'Le billet a bien été ajouté !' : 'Le billet a bien été modifié !';
         }
         else
         {
-            $this->erreurs = $billet->getErreurs();
+            return implode($billet->getErreurs());
         }
     }
 
